@@ -1,2 +1,244 @@
-<!DOCTYPE HTML>
-lang=en
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Her Journey | A Story of Migration</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #101827;
+      color: #f4f6fb;
+      line-height: 1.6;
+    }
+
+    header {
+      min-height: 45vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #172c49, #405b80, #b7a6c9);
+    }
+
+    header h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      letter-spacing: 3px;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    header p {
+      margin-top: 12px;
+      font-size: 1.1rem;
+      color: #f1eafa;
+      animation: fadeIn 1.8s ease both;
+    }
+
+    .route {
+      text-align: center;
+      padding: 24px 15px;
+      color: #c5d7ff;
+      letter-spacing: 1px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 10px 20px 60px;
+    }
+
+    .stop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      margin: 28px 0;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      animation: riseUp 0.8s ease both;
+    }
+
+    .stop:hover {
+      transform: translateY(-6px);
+      border-color: #9bbcff;
+    }
+
+    .stop:nth-child(even) .photo {
+      order: 2;
+    }
+
+    .photo {
+      min-height: 210px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 12px;
+      padding: 20px;
+      color: #e0e9ff;
+      background: linear-gradient(135deg, #293d5c, #586c8a);
+      border: 1px dashed #a9c1ec;
+    }
+
+    .photo span {
+      font-size: 0.95rem;
+    }
+
+    .number {
+      color: #a9c1ff;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin: 5px 0 10px;
+    }
+
+    .fact {
+      color: #d4dceb;
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #0a101b;
+      color: #9ba9c1;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes riseUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .stop {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .stop:nth-child(even) .photo {
+        order: 0;
+      }
+
+      .photo {
+        min-height: 180px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>HER JOURNEY</h1>
+    <p>A journey across places, cultures, and new beginnings.</p>
+  </header>
+
+  <div class="route">
+    SOUTH VIETNAM &nbsp;→&nbsp; GUAM &nbsp;→&nbsp; FLORIDA &nbsp;→&nbsp; ALABAMA
+  </div>
+
+  <main>
+
+    <section class="stop">
+      <div class="photo">
+        <span>[ INSERT SOUTH VIETNAM IMAGE HERE ]</span>
+      </div>
+      <div>
+        <div class="number">Stop 01 · Starting Point</div>
+        <h2>South Vietnam</h2>
+        <p class="fact">
+          South Vietnam is known for the Mekong Delta, a region of rivers,
+          canals, and fertile farmland.
+        </p>
+      </div>
+    </section>
+
+    <section class="stop">
+      <div class="photo">
+        <span>[ INSERT GUAM IMAGE HERE ]</span>
+      </div>
+      <div>
+        <div class="number">Stop 02 · The Pacific</div>
+        <h2>Guam</h2>
+        <p class="fact">
+          Guam is a Pacific island where Chamorro culture has deep roots.
+        </p>
+      </div>
+    </section>
+
+    <section class="stop">
+      <div class="photo">
+        <span>[ INSERT FLORIDA IMAGE HERE ]</span>
+      </div>
+      <div>
+        <div class="number">Stop 03 · The Sunshine State</div>
+        <h2>Florida</h2>
+        <p class="fact">
+          Florida is known for its warm climate, beaches, and the Everglades.
+        </p>
+      </div>
+    </section>
+
+    <section class="stop">
+      <div class="photo">
+        <span>[ INSERT ALABAMA IMAGE HERE ]</span>
+      </div>
+      <div>
+        <div class="number">Stop 04 · The Destination</div>
+        <h2>Alabama</h2>
+        <p class="fact">
+          Alabama played an important role in the American Civil Rights Movement.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Her Journey · A Story of Migration
+  </footer>
+
+</body>
+</html>
