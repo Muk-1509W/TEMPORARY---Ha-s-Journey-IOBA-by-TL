@@ -2,243 +2,665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Her Journey | A Story of Migration</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Her Journey | Migration Story</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+:root {
+  --accent: #d8c29a;
+  --white: #f8f6f1;
+  --muted: #d0d0d0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #101827;
-      color: #f4f6fb;
-      line-height: 1.6;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    header {
-      min-height: 45vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #172c49, #405b80, #b7a6c9);
-    }
+body {
+  background: #101010;
+  color: var(--white);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  overflow: hidden;
+}
 
-    header h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      letter-spacing: 3px;
-      animation: fadeIn 1.2s ease both;
-    }
+button {
+  font: inherit;
+}
 
-    header p {
-      margin-top: 12px;
-      font-size: 1.1rem;
-      color: #f1eafa;
-      animation: fadeIn 1.8s ease both;
-    }
+.experience {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #1b2026;
+}
 
-    .route {
-      text-align: center;
-      padding: 24px 15px;
-      color: #c5d7ff;
-      letter-spacing: 1px;
-    }
+/* Full-screen changing backgrounds */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  opacity: 0;
+  visibility: hidden;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.08);
+  transition:
+    opacity 1s ease,
+    transform 6s ease,
+    visibility 1s;
+}
 
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 10px 20px 60px;
-    }
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
 
-    .stop {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      align-items: center;
-      margin: 28px 0;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.055);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      animation: riseUp 0.8s ease both;
-    }
+/* Replace these paths with your own images */
+#bg-0 {
+  background-image: url("images/south-vietnam.jpg");
+  background-color: #354b40;
+}
 
-    .stop:hover {
-      transform: translateY(-6px);
-      border-color: #9bbcff;
-    }
+#bg-1 {
+  background-image: url("images/guam.jpg");
+  background-color: #28576b;
+}
 
-    .stop:nth-child(even) .photo {
-      order: 2;
-    }
+#bg-2 {
+  background-image: url("images/florida.jpg");
+  background-color: #78503d;
+}
 
-    .photo {
-      min-height: 210px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      border-radius: 12px;
-      padding: 20px;
-      color: #e0e9ff;
-      background: linear-gradient(135deg, #293d5c, #586c8a);
-      border: 1px dashed #a9c1ec;
-    }
+#bg-3 {
+  background-image: url("images/alabama.jpg");
+  background-color: #454d37;
+}
 
-    .photo span {
-      font-size: 0.95rem;
-    }
+/* Cinematic overlays */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg,
+      rgba(8, 10, 13, .86) 0%,
+      rgba(8, 10, 13, .57) 42%,
+      rgba(8, 10, 13, .05) 100%),
+    linear-gradient(0deg,
+      rgba(8, 10, 13, .8) 0%,
+      transparent 40%,
+      rgba(8, 10, 13, .2) 100%);
+}
 
-    .number {
-      color: #a9c1ff;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: .12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}
 
-    h2 {
-      font-size: 1.8rem;
-      margin: 5px 0 10px;
-    }
+/* Header */
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 5.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  z-index: 10;
+}
 
-    .fact {
-      color: #d4dceb;
-      font-size: 1rem;
-    }
+.brand {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: #0a101b;
-      color: #9ba9c1;
-      font-size: 0.9rem;
-    }
+.edition {
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+/* Main text */
+.content {
+  position: absolute;
+  left: 10%;
+  top: 25%;
+  width: min(560px, 78%);
+  z-index: 4;
+}
 
-    @keyframes riseUp {
-      from {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
 
-    @media (max-width: 650px) {
-      .stop {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
+.eyebrow::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--accent);
+}
 
-      .stop:nth-child(even) .photo {
-        order: 0;
-      }
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 8vw, 104px);
+  font-weight: 400;
+  letter-spacing: -3px;
+  line-height: .98;
+  margin-bottom: 26px;
+  text-wrap: balance;
+}
 
-      .photo {
-        min-height: 180px;
-      }
-    }
+.description {
+  max-width: 390px;
+  color: #e0dfdb;
+  font-size: 16px;
+  line-height: 1.9;
+}
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
+.coordinates {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 30px;
+  color: #d4d1c8;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.coordinates span {
+  height: 1px;
+  width: 35px;
+  background: var(--accent);
+}
+
+/* Girl sprite */
+.character {
+  position: absolute;
+  z-index: 3;
+  bottom: 10%;
+  left: 8%;
+  height: min(56vh, 440px);
+  width: min(30vw, 260px);
+  min-width: 130px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  pointer-events: none;
+  will-change: left, transform;
+}
+
+.character img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 12px 20px rgba(0,0,0,.35));
+}
+
+/* If no character image is present, show a clear placeholder */
+.sprite-placeholder {
+  display: none;
+  width: 105px;
+  height: 255px;
+  position: relative;
+}
+
+.sprite-placeholder .head {
+  width: 58px;
+  height: 70px;
+  border-radius: 48% 48% 45% 45%;
+  background: #bc8e6a;
+  position: absolute;
+  top: 0;
+  left: 23px;
+  box-shadow: inset 0 14px #30241e;
+}
+
+.sprite-placeholder .body {
+  position: absolute;
+  top: 65px;
+  left: 12px;
+  width: 80px;
+  height: 115px;
+  background: #273a45;
+  border-radius: 20px 20px 8px 8px;
+}
+
+.sprite-placeholder .leg {
+  position: absolute;
+  top: 166px;
+  left: 24px;
+  width: 22px;
+  height: 83px;
+  background: #24272c;
+  border-radius: 8px;
+  transform-origin: top;
+}
+
+.sprite-placeholder .leg.second {
+  left: 58px;
+}
+
+/* Controls */
+.bottom {
+  position: absolute;
+  left: 5.5%;
+  right: 5.5%;
+  bottom: 28px;
+  z-index: 10;
+}
+
+.progress-track {
+  height: 2px;
+  background: rgba(255,255,255,.25);
+  margin-bottom: 22px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 25%;
+  background: var(--accent);
+  transition: width .7s ease;
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.step-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #e2ded6;
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.control {
+  color: white;
+  background: rgba(15,15,15,.35);
+  border: 1px solid rgba(255,255,255,.45);
+  padding: 11px 17px;
+  cursor: pointer;
+  transition: background .25s, color .25s;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.control:hover,
+.control:focus-visible {
+  background: var(--white);
+  color: #161616;
+  outline: none;
+}
+
+.control:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+/* New scene text animation */
+.content .eyebrow,
+.content h1,
+.content .description,
+.content .coordinates {
+  animation: textReveal .85s both;
+}
+
+.content h1 {
+  animation-delay: .08s;
+}
+
+.content .description {
+  animation-delay: .16s;
+}
+
+.content .coordinates {
+  animation-delay: .24s;
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Character moves between scenes */
+.character.travel {
+  animation: travel 1.5s cubic-bezier(.22,.61,.36,1) both;
+}
+
+.character.travel img {
+  animation: walk .45s ease-in-out 3;
+}
+
+@keyframes travel {
+  from { left: 8%; }
+  to { left: min(68%, calc(100% - 190px)); }
+}
+
+@keyframes walk {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-5px) rotate(1deg); }
+}
+
+@media (max-width: 650px) {
+  .topbar {
+    padding: 22px 6%;
+  }
+
+  .edition {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .content {
+    top: 23%;
+    left: 7%;
+    width: 85%;
+  }
+
+  h1 {
+    font-size: clamp(49px, 12vw, 75px);
+  }
+
+  .description {
+    font-size: 14px;
+    max-width: 310px;
+  }
+
+  .character {
+    height: 35vh;
+    width: 145px;
+    bottom: 13%;
+  }
+
+  .bottom {
+    left: 6%;
+    right: 6%;
+    bottom: 18px;
+  }
+
+  .control {
+    padding: 10px;
+    font-size: 10px;
+  }
+
+  .step-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .control-row {
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>HER JOURNEY</h1>
-    <p>A journey across places, cultures, and new beginnings.</p>
+<div class="experience" id="experience">
+
+  <!-- Background scenes -->
+  <div class="scene active" id="bg-0"></div>
+  <div class="scene" id="bg-1"></div>
+  <div class="scene" id="bg-2"></div>
+  <div class="scene" id="bg-3"></div>
+
+  <div class="shade"></div>
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <div class="brand">HER JOURNEY</div>
+    <div class="edition">A Story of Migration · 2026</div>
   </header>
 
-  <div class="route">
-    SOUTH VIETNAM &nbsp;→&nbsp; GUAM &nbsp;→&nbsp; FLORIDA &nbsp;→&nbsp; ALABAMA
-  </div>
-
-  <main>
-
-    <section class="stop">
-      <div class="photo">
-        <span>[ INSERT SOUTH VIETNAM IMAGE HERE ]</span>
-      </div>
-      <div>
-        <div class="number">Stop 01 · Starting Point</div>
-        <h2>South Vietnam</h2>
-        <p class="fact">
-          South Vietnam is known for the Mekong Delta, a region of rivers,
-          canals, and fertile farmland.
-        </p>
-      </div>
-    </section>
-
-    <section class="stop">
-      <div class="photo">
-        <span>[ INSERT GUAM IMAGE HERE ]</span>
-      </div>
-      <div>
-        <div class="number">Stop 02 · The Pacific</div>
-        <h2>Guam</h2>
-        <p class="fact">
-          Guam is a Pacific island where Chamorro culture has deep roots.
-        </p>
-      </div>
-    </section>
-
-    <section class="stop">
-      <div class="photo">
-        <span>[ INSERT FLORIDA IMAGE HERE ]</span>
-      </div>
-      <div>
-        <div class="number">Stop 03 · The Sunshine State</div>
-        <h2>Florida</h2>
-        <p class="fact">
-          Florida is known for its warm climate, beaches, and the Everglades.
-        </p>
-      </div>
-    </section>
-
-    <section class="stop">
-      <div class="photo">
-        <span>[ INSERT ALABAMA IMAGE HERE ]</span>
-      </div>
-      <div>
-        <div class="number">Stop 04 · The Destination</div>
-        <h2>Alabama</h2>
-        <p class="fact">
-          Alabama played an important role in the American Civil Rights Movement.
-        </p>
-      </div>
-    </section>
-
+  <!-- Scene text updates automatically -->
+  <main class="content" aria-live="polite">
+    <div class="eyebrow" id="eyebrow">The Beginning</div>
+    <h1 id="title">South<br>Vietnam</h1>
+    <p class="description" id="description">
+      The journey begins in southern Vietnam, a region shaped by the
+      Mekong Delta's rivers, canals, and fertile farmland.
+    </p>
+    <div class="coordinates" id="coordinates">
+      <span></span> 01 — The Starting Point
+    </div>
   </main>
 
-  <footer>
-    Her Journey · A Story of Migration
+  <!-- Replace girl.png with your own character image -->
+  <div class="character" id="character">
+    <img
+      src="images/girl.png"
+      alt="The girl travelling through each location"
+      id="girlImage"
+    >
+    <div class="sprite-placeholder" id="spritePlaceholder">
+      <div class="head"></div>
+      <div class="body"></div>
+      <div class="leg"></div>
+      <div class="leg second"></div>
+    </div>
+  </div>
+
+  <!-- Playback and progress -->
+  <footer class="bottom">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="control-row">
+      <div class="step-label" id="stepLabel">LOCATION 01 / 04</div>
+
+      <div class="controls">
+        <button class="control" id="prev">← BACK</button>
+        <button class="control" id="play">Ⅱ PAUSE</button>
+        <button class="control" id="next">NEXT →</button>
+      </div>
+    </div>
   </footer>
+
+</div>
+
+<script>
+const locations = [
+  {
+    eyebrow: "The Beginning",
+    title: "South<br>Vietnam",
+    description:
+      "The journey begins in southern Vietnam, a region shaped by the Mekong Delta's rivers, canals, and fertile farmland.",
+    coordinates: "01 — The Starting Point",
+    duration: 7000
+  },
+  {
+    eyebrow: "Across the Pacific",
+    title: "Guam",
+    description:
+      "Guam is a Pacific island where Chamorro culture has deep roots and traditions remain an important part of everyday life.",
+    coordinates: "02 — The Pacific",
+    duration: 7000
+  },
+  {
+    eyebrow: "A New Horizon",
+    title: "Florida",
+    description:
+      "Florida, known as the Sunshine State, is home to the Everglades, a vast wetland ecosystem.",
+    coordinates: "03 — The United States",
+    duration: 7000
+  },
+  {
+    eyebrow: "The Destination",
+    title: "Alabama",
+    description:
+      "Alabama played an important role in the American Civil Rights Movement, a defining chapter in the nation's history.",
+    coordinates: "04 — The Destination",
+    duration: 9000
+  }
+];
+
+let current = 0;
+let playing = true;
+let timer = null;
+let transitionToken = 0;
+
+const character = document.getElementById("character");
+const girlImage = document.getElementById("girlImage");
+const spritePlaceholder = document.getElementById("spritePlaceholder");
+
+function showScene(index, animate = true) {
+  current = Math.max(0, Math.min(index, locations.length - 1));
+  const scene = locations[current];
+
+  // Change the entire background
+  document.querySelectorAll(".scene").forEach((bg, i) => {
+    bg.classList.toggle("active", i === current);
+  });
+
+  // Re-trigger title and caption animations
+  const content = document.querySelector(".content");
+  content.querySelectorAll(".eyebrow, h1, .description, .coordinates")
+    .forEach(el => {
+      el.style.animation = "none";
+      void el.offsetWidth;
+      el.style.animation = "";
+    });
+
+  document.getElementById("eyebrow").textContent = scene.eyebrow;
+  document.getElementById("title").innerHTML = scene.title;
+  document.getElementById("description").textContent = scene.description;
+  document.getElementById("coordinates").innerHTML =
+    "<span></span> " + scene.coordinates;
+
+  document.getElementById("stepLabel").textContent =
+    `LOCATION ${String(current + 1).padStart(2, "0")} / 04`;
+
+  document.getElementById("progress").style.width =
+    ((current + 1) / locations.length * 100) + "%";
+
+  document.getElementById("prev").disabled = current === 0;
+  document.getElementById("next").textContent =
+    current === locations.length - 1 ? "RESTART ↻" : "NEXT →";
+
+  // Animate the character's journey
+  character.classList.remove("travel");
+  character.style.left = "8%";
+
+  if (animate) {
+    void character.offsetWidth;
+    character.classList.add("travel");
+  } else {
+    character.style.left = "min(68%, calc(100% - 190px))";
+  }
+
+  clearTimeout(timer);
+  if (playing) {
+    timer = setTimeout(() => {
+      if (current < locations.length - 1) {
+        showScene(current + 1);
+      } else {
+        playing = false;
+        updatePlayButton();
+      }
+    }, scene.duration);
+  }
+}
+
+function updatePlayButton() {
+  document.getElementById("play").textContent =
+    playing ? "Ⅱ PAUSE" : "▶ PLAY";
+}
+
+document.getElementById("next").addEventListener("click", () => {
+  if (current === locations.length - 1) {
+    playing = true;
+    updatePlayButton();
+    showScene(0);
+  } else {
+    showScene(current + 1);
+  }
+});
+
+document.getElementById("prev").addEventListener("click", () => {
+  if (current > 0) showScene(current - 1);
+});
+
+document.getElementById("play").addEventListener("click", () => {
+  playing = !playing;
+  updatePlayButton();
+  clearTimeout(timer);
+
+  if (playing) {
+    showScene(current, false);
+  }
+});
+
+// Keyboard navigation
+document.addEventListener("keydown", event => {
+  if (event.key === "ArrowRight") {
+    document.getElementById("next").click();
+  }
+  if (event.key === "ArrowLeft") {
+    document.getElementById("prev").click();
+  }
+  if (event.key === " " && event.target.tagName !== "BUTTON") {
+    event.preventDefault();
+    document.getElementById("play").click();
+  }
+});
+
+// Show a temporary character silhouette until you add your own sprite
+girlImage.addEventListener("error", () => {
+  girlImage.style.display = "none";
+  spritePlaceholder.style.display = "block";
+});
+
+showScene(0, false);
+</script>
 
 </body>
 </html>
