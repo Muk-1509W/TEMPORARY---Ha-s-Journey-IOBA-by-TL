@@ -868,6 +868,20 @@ girlImage.addEventListener("error", () => {
 });
 
 showScene(0, false);
+
+const homeScreen = document.getElementById("homeScreen");
+const startButton = document.getElementById("startButton");
+
+startButton.addEventListener("click", () => {
+  // Begin at the first location
+  playing = true;
+  updatePlayButton();
+  showScene(0, false);
+
+  // Fade away the home page
+  homeScreen.classList.add("hidden");
+});
+
 </script>
 
 </body>
