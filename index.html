@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Her Journey | Migration Story</title>
+<title>Ha's Journey | MUKUNDAN SUDARSAN</title>
 
 <style>
 :root {
@@ -438,12 +438,221 @@ h1 {
     transition-duration: .01ms !important;
   }
 }
+  
+/* CINEMATIC HOME PAGE */
+
+.home-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+  overflow: hidden;
+  background: #111;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+.home-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.home-background {
+  position: absolute;
+  inset: 0;
+  background:
+    url("images/south-vietnam.jpg")
+    center 55% / cover no-repeat;
+  transform: scale(1.04);
+  animation: homeZoom 14s ease-in-out infinite alternate;
+}
+
+.home-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 10, 14, .91) 0%,
+    rgba(8, 10, 14, .70) 45%,
+    rgba(8, 10, 14, .15) 100%
+  );
+}
+
+.home-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  animation: homeReveal 1.2s ease both;
+}
+
+.home-eyebrow {
+  color: #d8c29a;
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin-bottom: 25px;
+}
+
+.home-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(70px, 12vw, 145px);
+  line-height: .83;
+  font-weight: 400;
+  letter-spacing: -5px;
+  margin-bottom: 32px;
+}
+
+.home-title span {
+  color: #d8c29a;
+  font-style: italic;
+}
+
+.home-description {
+  font-size: 15px;
+  color: #dedbd5;
+  line-height: 1.9;
+  margin-bottom: 36px;
+}
+
+.start-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 45px;
+  padding: 17px 21px;
+  min-width: 235px;
+  color: #151515;
+  background: #d8c29a;
+  border: 1px solid #d8c29a;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 2px;
+  transition: background .3s, color .3s, transform .3s;
+}
+
+.start-button .arrow {
+  font-size: 19px;
+  transition: transform .3s;
+}
+
+.start-button:hover {
+  background: transparent;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.start-button:hover .arrow {
+  transform: translate(4px, -4px);
+}
+
+.home-route {
+  margin-top: 35px;
+  color: #c8c4bc;
+  font-size: 9px;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+.home-footer {
+  position: absolute;
+  bottom: 28px;
+  left: 5.5%;
+  right: 5.5%;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: #d2cec5;
+  font-size: 9px;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255,255,255,.3);
+  padding-top: 18px;
+}
+
+@keyframes homeReveal {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes homeZoom {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.14); }
+}
+
+@media (max-width: 650px) {
+  .home-screen {
+    padding: 0 7%;
+  }
+
+  .home-title {
+    font-size: clamp(65px, 16vw, 100px);
+  }
+
+  .home-route {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .home-footer {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-background {
+    animation: none;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="experience" id="experience">
+  
+<!-- HOME PAGE -->
+<section class="home-screen" id="homeScreen">
+  <div class="home-background"></div>
+  <div class="home-overlay"></div>
+
+  <div class="home-content">
+    <p class="home-eyebrow">A STORY OF MIGRATION</p>
+
+    <h1 class="home-title">
+      HER<br>
+      <span>JOURNEY.</span>
+    </h1>
+
+    <p class="home-description">
+      Four places. One journey.<br>
+      A story of leaving home and finding a new beginning.
+    </p>
+
+    <button class="start-button" id="startButton">
+      <span>START JOURNEY</span>
+      <span class="arrow">↗</span>
+    </button>
+
+    <p class="home-route">
+      SOUTH VIETNAM &nbsp;—&nbsp; GUAM &nbsp;—&nbsp;
+      FLORIDA &nbsp;—&nbsp; ALABAMA
+    </p>
+  </div>
+
+  <div class="home-footer">
+    <span>AN IMMIGRATION STORY</span>
+    <span>01 — 04 LOCATIONS</span>
+  </div>
+</section>
+
 
   <!-- Background scenes -->
   <div class="scene active" id="bg-0"></div>
