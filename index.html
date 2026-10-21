@@ -630,6 +630,21 @@ button {
     transition-duration: .01ms !important;
   }
 }
+  .home-link {
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  transition: color 0.3s ease;
+}
+
+.home-link:hover {
+  color: #d9bd8b;
+}
 </style>
 </head>
 
@@ -782,6 +797,19 @@ button {
   const girlImage = $("girlImage");
   const spritePlaceholder = $("spritePlaceholder");
 
+$("homeLink").addEventListener("click", () => {
+  clearTimeout(timer);
+
+  playing = false;
+  started = false;
+
+  updatePlayButton();
+  homeScreen.classList.remove("hidden");
+
+  showScene(0, false);
+  clearTimeout(timer);
+});
+  
   let current = 0;
   let playing = false;
   let started = false;
