@@ -7,721 +7,173 @@
 <title>Ha's Journey — Inside Out & Back Again</title>
 
 <style>
-:root {
-  --cream: #f2eee5;
-  --gold: #d9bd8b;
-  --muted: #c9c4b9;
-  --dark: #10120f;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  background: var(--dark);
-  color: var(--cream);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-  font: inherit;
-}
-
-.experience {
-  position: relative;
-  isolation: isolate;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  min-height: 500px;
-  overflow: hidden;
-  background: #242c2b;
-}
-
-/* =================================
-   BACKGROUNDS
-   Replace these images if desired.
-================================= */
-
-.scene {
-  position: absolute;
-  inset: 0;
-  z-index: -3;
-  opacity: 0;
-  visibility: hidden;
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.06);
-  transition:
-    opacity 1s ease,
-    transform 7s ease,
-    visibility 1s;
-}
-
-.scene.active {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
-}
-
-#bg-0 {
-  background-image:
-    url("images/south-vietnam.jpg");
-  background-color: #526750;
-}
-
-#bg-1 {
-  background-image:
-    url("images/guam.jpg");
-  background-color: #306c7d;
-}
-
-#bg-2 {
-  background-image:
-    url("images/florida.jpg");
-  background-color: #9b674b;
-}
-
-#bg-3 {
-  background-image:
-    url("images/alabama.jpg");
-  background-color: #48523d;
-}
-
-/* Atmospheric overlay */
-
-.shade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(10, 12, 12, .87),
-      rgba(10, 12, 12, .58) 44%,
-      rgba(10, 12, 12, .08)
-    ),
-    linear-gradient(
-      0deg,
-      rgba(8, 9, 8, .82),
-      transparent 48%,
-      rgba(8, 9, 8, .22)
-    );
-  pointer-events: none;
-}
-
-/* =================================
-   CINEMATIC HOME PAGE
-================================= */
-
-.home-screen {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  padding: 0 10%;
-  overflow: hidden;
-  background: #202a27;
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity .9s ease,
-    visibility .9s ease;
-}
-
-.home-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.home-background {
-  position: absolute;
-  inset: 0;
-  background-image:
-    url("images/south-vietnam.jpg");
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.02);
-  animation: homeZoom 16s ease-in-out infinite alternate;
-}
-
-.home-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(8, 11, 10, .91) 0%,
-      rgba(8, 11, 10, .69) 47%,
-      rgba(8, 11, 10, .17) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(8, 11, 10, .56),
-      transparent 45%
-    );
-}
-
-.home-content {
-  position: relative;
-  z-index: 2;
-  max-width: 720px;
-  animation: reveal .9s ease both;
-}
-
-.home-eyebrow,
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold);
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-}
-
-.home-eyebrow {
-  margin-bottom: 27px;
-}
-
-.home-eyebrow::before,
-.eyebrow::before {
-  content: "";
-  width: 32px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.home-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 400;
-  font-size: clamp(76px, 12vw, 145px);
-  line-height: .84;
-  letter-spacing: -5px;
-  margin-bottom: 29px;
-}
-
-.home-title span {
-  color: var(--gold);
-  font-style: italic;
-}
-
-.home-description {
-  max-width: 410px;
-  color: #e1ded6;
-  font-size: 15px;
-  line-height: 1.9;
-  margin-bottom: 33px;
-}
-
-.start-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 48px;
-  min-width: 245px;
-  padding: 18px 21px;
-  color: #171812;
-  background: var(--gold);
-  border: 1px solid var(--gold);
-  cursor: pointer;
-  font-size: 10px;
-  letter-spacing: 2px;
-  transition:
-    background .25s,
-    color .25s,
-    transform .25s;
-}
-
-.start-button:hover {
-  background: transparent;
-  color: white;
-  transform: translateY(-3px);
-}
-
-.start-button .arrow {
-  font-size: 18px;
-  transition: transform .25s;
-}
-
-.start-button:hover .arrow {
-  transform: translate(4px, -4px);
-}
-
-.home-route {
-  margin-top: 30px;
-  max-width: 500px;
-  color: #d3cfc5;
-  font-size: 9px;
-  line-height: 2;
-  letter-spacing: 2px;
-}
-
-.home-footer {
-  position: absolute;
-  z-index: 2;
-  left: 5.5%;
-  right: 5.5%;
-  bottom: 27px;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  border-top: 1px solid rgba(255,255,255,.28);
-  padding-top: 16px;
-  color: #ded8cc;
-  font-size: 9px;
-  letter-spacing: 2px;
-}
-
-/* =================================
-   EXPERIENCE HEADER
-================================= */
-
-.topbar {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 26px 5.5%;
-  border-bottom: 1px solid rgba(255,255,255,.19);
-}
-
-.brand {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 4px;
-}
-
-.edition {
-  color: var(--gold);
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* =================================
-   LOCATION TEXT
-================================= */
-
-.content {
-  position: absolute;
-  z-index: 4;
-  top: 24%;
-  left: 10%;
-  width: min(560px, 78%);
-}
-
-.eyebrow {
-  margin-bottom: 24px;
-}
-
-.location-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 400;
-  font-size: clamp(55px, 8vw, 105px);
-  letter-spacing: -3px;
-  line-height: .98;
-  margin-bottom: 25px;
-}
-
-.description {
-  max-width: 390px;
-  color: #e0dfdb;
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.coordinates {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  margin-top: 27px;
-  color: #d5d0c6;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.coordinates span {
-  display: inline-block;
-  width: 33px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.content.animate .eyebrow,
-.content.animate .location-title,
-.content.animate .description,
-.content.animate .coordinates {
-  animation: reveal .75s both;
-}
-
-.content.animate .location-title {
-  animation-delay: .08s;
-}
-
-.content.animate .description {
-  animation-delay: .16s;
-}
-
-.content.animate .coordinates {
-  animation-delay: .23s;
-}
-
-/* =================================
-   GIRL CHARACTER
-================================= */
-
-.character {
-  position: absolute;
-  z-index: 3;
-  bottom: 11%;
-  left: 8%;
-  width: min(25vw, 235px);
-  height: min(53vh, 420px);
-  min-width: 115px;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-  pointer-events: none;
-  will-change: left, transform;
-}
-
-.character img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-  filter: drop-shadow(0 12px 20px rgba(0,0,0,.4));
-}
-
-.sprite-placeholder {
-  display: none;
-  position: relative;
-  width: 105px;
-  height: 255px;
-}
-
-.sprite-placeholder .head {
-  position: absolute;
-  top: 0;
-  left: 23px;
-  width: 58px;
-  height: 70px;
-  border-radius: 48%;
-  background: #bb8b68;
-  box-shadow: inset 0 14px #30251f;
-}
-
-.sprite-placeholder .body {
-  position: absolute;
-  top: 64px;
-  left: 12px;
-  width: 80px;
-  height: 115px;
-  border-radius: 20px 20px 8px 8px;
-  background: #293c45;
-}
-
-.sprite-placeholder .leg {
-  position: absolute;
-  top: 166px;
-  left: 24px;
-  width: 22px;
-  height: 83px;
-  background: #25282b;
-  border-radius: 8px;
-  transform-origin: top;
-}
-
-.sprite-placeholder .leg.second {
-  left: 58px;
-}
-
-.character.travel {
-  animation: travel 1.5s cubic-bezier(.22,.61,.36,1) both;
-}
-
-.character.travel img {
-  animation: walk .45s ease-in-out 3;
-}
-
-@keyframes travel {
-  from { left: 8%; }
-  to { left: min(68%, calc(100% - 180px)); }
-}
-
-@keyframes walk {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-5px) rotate(1deg); }
-}
-
-/* =================================
-   PROGRESS AND CONTROLS
-================================= */
-
-.bottom {
-  position: absolute;
-  z-index: 10;
-  left: 5.5%;
-  right: 5.5%;
-  bottom: 26px;
-}
-
-.progress-track {
-  height: 2px;
-  background: rgba(255,255,255,.25);
-  margin-bottom: 20px;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: var(--gold);
-  transition: width .6s ease;
-}
-
-.control-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-
-.step-label {
-  color: #e2ded6;
-  font-size: 9px;
-  letter-spacing: 2px;
-}
-
-.controls {
-  display: flex;
-  gap: 8px;
-}
-
-.control {
-  padding: 11px 15px;
-  border: 1px solid rgba(255,255,255,.42);
-  color: white;
-  background: rgba(15,15,15,.35);
-  font-size: 10px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: background .2s, color .2s;
-}
-
-.control:hover:not(:disabled) {
-  background: var(--cream);
-  color: #111;
-}
-
-.control:disabled {
-  opacity: .35;
-  cursor: default;
-}
-
-/* =================================
-   ANIMATIONS AND RESPONSIVENESS
-================================= */
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-    filter: blur(3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-@keyframes homeZoom {
-  from { transform: scale(1.02); }
-  to { transform: scale(1.12); }
-}
-
-@media (max-width: 650px) {
-  .home-screen {
-    padding: 0 7%;
-  }
-
-  .home-title {
-    font-size: clamp(65px, 16vw, 100px);
-  }
-
-  .home-route {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
-
-  .home-footer {
-    font-size: 7px;
-    letter-spacing: 1px;
-  }
-
-  .topbar {
-    padding: 20px 6%;
-  }
-
-  .edition {
-    font-size: 7px;
-    letter-spacing: 1px;
-  }
-
-  .content {
-    top: 22%;
-    left: 7%;
-    width: 86%;
-  }
-
-  .location-title {
-    font-size: clamp(50px, 12vw, 75px);
-  }
-
-  .description {
-    font-size: 13px;
-    max-width: 310px;
-  }
-
-  .character {
-    width: 135px;
-    height: 33vh;
-    bottom: 15%;
-  }
-
-  .bottom {
-    left: 6%;
-    right: 6%;
-    bottom: 17px;
-  }
-
-  .control {
-    padding: 9px 8px;
-    font-size: 9px;
-  }
-
-  .step-label {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
+:root { --cream:#f2eee5; --gold:#d9bd8b; --dark:#10120f; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { width:100%; height:100%; overflow:hidden; }
+body { background:var(--dark); color:var(--cream); font-family:Arial, Helvetica, sans-serif; }
+button { font:inherit; }
+:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+
+.experience { position:relative; isolation:isolate; width:100%; height:100vh; height:100dvh; min-height:500px; overflow:hidden; background:#242c2b; }
+
+/* BACKGROUNDS */
+.scene { position:absolute; inset:0; z-index:-3; opacity:0; visibility:hidden; background-size:cover; background-position:center; transform:scale(1.06); transition:opacity 1s ease, transform 7s ease, visibility 1s; }
+.scene.active { opacity:1; visibility:visible; transform:scale(1); }
+#bg-0 { background-image:url("images/south-vietnam.jpg"); background-color:#526750; }
+#bg-1 { background-image:url("images/guam.jpg"); background-color:#306c7d; }
+#bg-2 { background-image:url("images/florida.jpg"); background-color:#9b674b; }
+#bg-3 { background-image:url("images/alabama.jpg"); background-color:#48523d; }
+
+.shade { position:absolute; inset:0; z-index:-2; pointer-events:none;
+  background:linear-gradient(90deg, rgba(10,12,12,.87), rgba(10,12,12,.58) 44%, rgba(10,12,12,.08)),
+             linear-gradient(0deg, rgba(8,9,8,.82), transparent 48%, rgba(8,9,8,.22)); }
+
+/* HOME */
+.home-screen { position:absolute; inset:0; z-index:50; display:flex; align-items:center; padding:0 10%; overflow:hidden; background:#202a27; transition:opacity .9s ease, visibility .9s ease; }
+.home-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.home-background { position:absolute; inset:0; background:url("images/south-vietnam.jpg") center/cover; transform:scale(1.02); animation:homeZoom 16s ease-in-out infinite alternate; }
+.home-overlay { position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(8,11,10,.91) 0%, rgba(8,11,10,.69) 47%, rgba(8,11,10,.17) 100%),
+             linear-gradient(0deg, rgba(8,11,10,.56), transparent 45%); }
+.home-content { position:relative; z-index:2; max-width:720px; animation:reveal .9s ease both; }
+
+.home-eyebrow, .eyebrow { display:flex; align-items:center; gap:12px; color:var(--gold); font-size:11px; letter-spacing:4px; text-transform:uppercase; }
+.home-eyebrow { margin-bottom:27px; }
+.home-eyebrow::before, .eyebrow::before { content:""; width:32px; height:1px; background:var(--gold); }
+
+.home-title { font-family:Georgia, "Times New Roman", serif; font-weight:400; font-size:clamp(76px,12vw,145px); line-height:.84; letter-spacing:-5px; margin-bottom:29px; }
+.home-title span { color:var(--gold); font-style:italic; }
+.home-description { max-width:410px; color:#e1ded6; font-size:15px; line-height:1.9; margin-bottom:33px; }
+
+.start-button { display:inline-flex; align-items:center; justify-content:space-between; gap:48px; min-width:245px; padding:18px 21px; color:#171812; background:var(--gold); border:1px solid var(--gold); cursor:pointer; font-size:11px; letter-spacing:2px; transition:background .25s, color .25s, transform .25s; }
+.start-button:hover { background:transparent; color:#fff; transform:translateY(-3px); }
+.start-button .arrow { font-size:18px; transition:transform .25s; }
+.start-button:hover .arrow { transform:translate(4px,-4px); }
+
+.home-route { margin-top:30px; max-width:500px; color:#d3cfc5; font-size:11px; line-height:2; letter-spacing:2px; }
+.home-footer { position:absolute; z-index:2; left:5.5%; right:5.5%; bottom:27px; display:flex; justify-content:space-between; gap:15px; border-top:1px solid rgba(255,255,255,.28); padding-top:16px; color:#ded8cc; font-size:11px; letter-spacing:2px; }
+
+/* HEADER */
+.topbar { position:absolute; z-index:10; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:26px 5.5%; border-bottom:1px solid rgba(255,255,255,.19); }
+.brand { font-size:11px; font-weight:700; letter-spacing:4px; }
+.edition { color:var(--gold); font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+
+/* LOCATION TEXT */
+.content { position:absolute; z-index:4; top:24%; left:10%; width:min(560px,78%); outline:none; }
+.eyebrow { margin-bottom:24px; }
+.location-title { font-family:Georgia, "Times New Roman", serif; font-weight:400; font-size:clamp(55px,8vw,105px); letter-spacing:-3px; line-height:.98; margin-bottom:25px; }
+.description { max-width:390px; color:#e0dfdb; font-size:15px; line-height:1.9; }
+.coordinates { display:flex; align-items:center; gap:13px; margin-top:27px; color:#d5d0c6; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+.coordinates[hidden] { display:none; }
+.coordinates span { display:inline-block; width:33px; height:1px; background:var(--gold); }
+
+.content.animate .eyebrow, .content.animate .location-title, .content.animate .description, .content.animate .coordinates { animation:reveal .75s both; }
+.content.animate .location-title { animation-delay:.08s; }
+.content.animate .description { animation-delay:.16s; }
+.content.animate .coordinates { animation-delay:.23s; }
+
+/* CHARACTER (position is controlled only by classes) */
+.character { position:absolute; z-index:3; bottom:11%; left:8%; width:min(25vw,235px); height:min(53vh,420px); min-width:115px; display:flex; align-items:end; justify-content:center; pointer-events:none; }
+.character img { width:100%; height:100%; object-fit:contain; object-position:bottom; filter:drop-shadow(0 12px 20px rgba(0,0,0,.4)); }
+.character.arrived { left:min(68%, calc(100% - 180px)); }
+.character.travel { animation:travel 1.5s cubic-bezier(.22,.61,.36,1) both; }
+.character.travel img { animation:walk .45s ease-in-out 3; }
+@keyframes travel { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
+@keyframes walk { 0%,100% { transform:translateY(0) rotate(0); } 50% { transform:translateY(-5px) rotate(1deg); } }
+
+.sprite-placeholder { display:none; position:relative; width:105px; height:255px; }
+.sprite-placeholder div { position:absolute; }
+.sprite-placeholder .head { top:0; left:23px; width:58px; height:70px; border-radius:48%; background:#bb8b68; box-shadow:inset 0 14px #30251f; }
+.sprite-placeholder .body { top:64px; left:12px; width:80px; height:115px; border-radius:20px 20px 8px 8px; background:#293c45; }
+.sprite-placeholder .leg { top:166px; left:24px; width:22px; height:83px; background:#25282b; border-radius:8px; }
+.sprite-placeholder .leg.second { left:58px; }
+
+/* CONTROLS */
+.bottom { position:absolute; z-index:10; left:5.5%; right:5.5%; bottom:26px; }
+.progress-track { height:2px; background:rgba(255,255,255,.25); margin-bottom:20px; }
+.progress-fill { height:100%; width:0%; background:var(--gold); transition:width .6s ease; }
+.control-row { display:flex; align-items:center; justify-content:space-between; gap:15px; }
+.step-label { color:#e2ded6; font-size:11px; letter-spacing:2px; }
+.controls { display:flex; gap:8px; }
+.control { padding:11px 15px; border:1px solid rgba(255,255,255,.42); color:#fff; background:rgba(15,15,15,.35); font-size:11px; letter-spacing:1px; cursor:pointer; transition:background .2s, color .2s; }
+.control:hover:not(:disabled) { background:var(--cream); color:#111; }
+.control:disabled { opacity:.35; cursor:default; }
+
+@keyframes reveal { from { opacity:0; transform:translateY(20px); filter:blur(3px); } to { opacity:1; transform:none; filter:blur(0); } }
+@keyframes homeZoom { from { transform:scale(1.02); } to { transform:scale(1.12); } }
+
+@media (max-width:650px) {
+  .home-screen { padding:0 7%; }
+  .home-title { font-size:clamp(65px,16vw,100px); }
+  .home-route, .home-footer, .edition, .step-label { letter-spacing:1px; }
+  .topbar { padding:20px 6%; }
+  .content { top:22%; left:7%; width:86%; }
+  .location-title { font-size:clamp(50px,12vw,75px); }
+  .description { font-size:13px; max-width:310px; }
+  .character { width:135px; height:33vh; bottom:15%; }
+  .bottom { left:6%; right:6%; bottom:17px; }
+  .control { padding:9px 8px; font-size:11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="experience" id="experience">
 
-  <!-- HOME PAGE: VISIBLE WHEN THE WEBSITE OPENS -->
   <section class="home-screen" id="homeScreen">
     <div class="home-background"></div>
     <div class="home-overlay"></div>
-
     <div class="home-content">
       <p class="home-eyebrow">A STORY OF MIGRATION</p>
-
-      <h1 class="home-title">
-        HA'S<br><span>JOURNEY.</span>
-      </h1>
-
+      <h1 class="home-title">HA'S<br><span>JOURNEY.</span></h1>
       <p class="home-description">
         Four places. One journey.<br>
         A story of leaving home and finding a new beginning.
       </p>
-
       <button class="start-button" id="startButton" type="button">
-        <span>START JOURNEY</span>
-        <span class="arrow">↗</span>
+        <span>START JOURNEY</span><span class="arrow" aria-hidden="true">↗</span>
       </button>
-
-      <p class="home-route">
-        SOUTH VIETNAM — GUAM — FLORIDA — ALABAMA
-      </p>
+      <p class="home-route">SOUTH VIETNAM — GUAM — FLORIDA — ALABAMA</p>
     </div>
-
     <div class="home-footer">
       <span>A STORY OF MIGRATION</span>
       <span>FOUR LOCATIONS</span>
     </div>
   </section>
 
-  <!-- FOUR SCENES -->
   <div class="scene" id="bg-0"></div>
   <div class="scene" id="bg-1"></div>
   <div class="scene" id="bg-2"></div>
   <div class="scene" id="bg-3"></div>
-
   <div class="shade"></div>
 
-  <!-- HEADER -->
   <header class="topbar">
     <div class="brand">Ha's Journey</div>
     <div class="edition">Inside Out & Back Again · 2026</div>
   </header>
 
-  <!-- LOCATION INFORMATION -->
-  <main class="content" id="content" aria-live="polite">
-    <div class="eyebrow" id="eyebrow">Saigon</div>
-
-    <h2 class="location-title" id="locationTitle">
-      South<br>Vietnam
-    </h2>
-
-    <p class="description" id="description">
-      The journey begins in southern Vietnam, a region shaped by the Mekong
-      Delta's rivers, canals, and fertile farmland.
-    </p>
-
-    <div class="coordinates" id="coordinates">
-      <span></span> 01 — The Starting Point
-    </div>
+  <main class="content" id="content" tabindex="-1" aria-live="polite">
+    <div class="eyebrow" id="eyebrow">Part I: Saigon</div>
+    <h2 class="location-title" id="locationTitle">South<br>Vietnam</h2>
+    <p class="description" id="description"></p>
+    <div class="coordinates" id="coordinates"></div>
   </main>
 
-  <!-- GIRL SPRITE: REPLACE WITH YOUR OWN TRANSPARENT PNG -->
   <div class="character" id="character">
     <img src="images/girl.png" alt="The girl on her journey" id="girlImage">
-
-    <div class="sprite-placeholder" id="spritePlaceholder">
-      <div class="head"></div>
-      <div class="body"></div>
-      <div class="leg"></div>
-      <div class="leg second"></div>
+    <div class="sprite-placeholder" id="spritePlaceholder" aria-hidden="true">
+      <div class="head"></div><div class="body"></div><div class="leg"></div><div class="leg second"></div>
     </div>
   </div>
 
-  <!-- PLAYBACK CONTROLS -->
   <footer class="bottom">
-    <div class="progress-track">
-      <div class="progress-fill" id="progress"></div>
-    </div>
-
+    <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
     <div class="control-row">
-      <div class="step-label" id="stepLabel">LOCATION 01 / 04</div>
-
+      <div class="step-label" id="stepLabel"></div>
       <div class="controls">
         <button class="control" id="prev" type="button">← BACK</button>
         <button class="control" id="play" type="button">Ⅱ PAUSE</button>
@@ -735,67 +187,58 @@ button {
 (() => {
   "use strict";
 
+  // Fill in the page number for Alabama (marked ###) and check each quote against the book.
   const locations = [
     {
       eyebrow: "Part I: Saigon",
-      title: "South<br>Vietnam",
-      description:
-        "'I decided to wake before dawn and tap my big tow to the tile floor first. Not even Mother sitting beside me, knew' (Lai 23).",
-      coordinates: "",
+      title: ["South", "Vietnam"],
+      description: "“I decided to wake before dawn and tap my big toe to the tile floor first. Not even Mother sitting beside me, knew” (Lai 23).",
+      label: "01 — The Starting Point",
       duration: 7000
     },
     {
       eyebrow: "Part II: At Sea",
-      title: "Guam",
-      description:
-        "'Someone should be kissed for having the heart to send cases of fish sauce to Guam' (Lai 100).",
-      coordinates: "",
+      title: ["Guam"],
+      description: "“Someone should be kissed for having the heart to send cases of fish sauce to Guam” (Lai 100).",
+      label: "02 — Stepping Stone",
       duration: 7000
     },
     {
       eyebrow: "Part II: At Sea",
-      title: "Florida",
-      description:
-        "'I love him immediately and imagine him to be good-hearted and loud and the owner of a horse' (Lai 111).",
-      coordinates: "",
+      title: ["Florida"],
+      description: "“I love him immediately and imagine him to be good-hearted and loud and the owner of a horse” (Lai 111).",
+      label: "03 — A New Shore",
       duration: 7000
     },
     {
-      eyebrow: "Part II: Alabama",
-      title: "Alabama",
-      description:
-        "'This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly' (Lai 260.",
-      coordinates: "",
+      eyebrow: "Part III: Alabama",
+      title: ["Alabama"],
+      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai ###).",
+      label: "04 — A New Beginning",
       duration: 9000
     }
   ];
 
   const $ = id => document.getElementById(id);
+  const total = locations.length;
 
   const homeScreen = $("homeScreen");
-  const startButton = $("startButton");
   const content = $("content");
   const character = $("character");
   const girlImage = $("girlImage");
-  const spritePlaceholder = $("spritePlaceholder");
+  const scenes = document.querySelectorAll(".scene");
 
-  let current = 0;
-  let playing = false;
-  let started = false;
-  let timer = null;
-  let transitionToken = 0;
+  let current = 0, playing = false, started = false, timer = null;
 
-  // Use the placeholder silhouette if the image is not uploaded yet.
+  // Preload backgrounds so scene changes don't flash a blank color.
+  ["south-vietnam", "guam", "florida", "alabama"].forEach(n => { new Image().src = `images/${n}.jpg`; });
+
   function showCharacterPlaceholder() {
     girlImage.style.display = "none";
-    spritePlaceholder.style.display = "block";
+    $("spritePlaceholder").style.display = "block";
   }
-
   girlImage.addEventListener("error", showCharacterPlaceholder);
-
-  if (girlImage.complete && girlImage.naturalWidth === 0) {
-    showCharacterPlaceholder();
-  }
+  if (girlImage.complete && girlImage.naturalWidth === 0) showCharacterPlaceholder();
 
   function updatePlayButton() {
     $("play").textContent = playing ? "Ⅱ PAUSE" : "▶ PLAY";
@@ -803,99 +246,82 @@ button {
 
   function scheduleNextScene() {
     clearTimeout(timer);
-
     if (!playing || !started) return;
-
-    const delay = locations[current].duration;
-
     timer = setTimeout(() => {
       if (!playing || !started) return;
-
-      if (current < locations.length - 1) {
+      if (current < total - 1) {
         showScene(current + 1);
       } else {
         playing = false;
         updatePlayButton();
       }
-    }, delay);
+    }, locations[current].duration);
   }
 
   function moveCharacter(animate) {
-    character.classList.remove("travel");
+    character.classList.remove("travel", "arrived");
+    void character.offsetWidth; // restart the CSS animation cleanly
+    character.classList.add(animate ? "travel" : "arrived");
+  }
 
-    character.style.transition = "none";
-    character.style.left = "8%";
-
-    if (!animate) {
-      character.style.left = "min(68%, calc(100% - 180px))";
-      return;
-    }
-
-    // Restart the CSS animation cleanly.
-    void character.offsetWidth;
-    character.style.transition = "";
-    character.classList.add("travel");
+  function setTitle(lines) {
+    const el = $("locationTitle");
+    el.textContent = "";
+    lines.forEach((line, i) => {
+      if (i) el.appendChild(document.createElement("br"));
+      el.appendChild(document.createTextNode(line));
+    });
   }
 
   function showScene(index, animate = true) {
-    current = Math.max(0, Math.min(index, locations.length - 1));
-
+    current = Math.max(0, Math.min(index, total - 1));
     const scene = locations[current];
-    const token = ++transitionToken;
 
-    document.querySelectorAll(".scene").forEach((element, i) => {
-      element.classList.toggle("active", i === current);
-    });
+    scenes.forEach((el, i) => el.classList.toggle("active", i === current));
 
     $("eyebrow").textContent = scene.eyebrow;
-    $("locationTitle").innerHTML = scene.title;
+    setTitle(scene.title);
     $("description").textContent = scene.description;
-    $("coordinates").innerHTML =
-      "<span></span> " + scene.coordinates;
 
-    $("stepLabel").textContent =
-      `LOCATION ${String(current + 1).padStart(2, "0")} / 04`;
+    const coords = $("coordinates");
+    coords.textContent = "";
+    coords.hidden = !scene.label;
+    if (scene.label) {
+      coords.appendChild(document.createElement("span"));
+      coords.appendChild(document.createTextNode(" " + scene.label));
+    }
 
-    $("progress").style.width =
-      ((current + 1) / locations.length * 100) + "%";
-
+    $("stepLabel").textContent = `LOCATION ${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+    $("progress").style.width = ((current + 1) / total * 100) + "%";
     $("prev").disabled = current === 0;
-    $("next").textContent =
-      current === locations.length - 1 ? "RESTART ↻" : "NEXT →";
+    $("next").textContent = current === total - 1 ? "RESTART ↻" : "NEXT →";
 
     content.classList.remove("animate");
     void content.offsetWidth;
     content.classList.add("animate");
 
     moveCharacter(animate);
-
     scheduleNextScene();
   }
 
-  // THE START BUTTON
-  // It is connected after all functions and elements are initialized.
-  startButton.addEventListener("click", () => {
+  $("startButton").addEventListener("click", () => {
     if (started) return;
-
     started = true;
     playing = true;
-
     homeScreen.classList.add("hidden");
-
     showScene(0, true);
     updatePlayButton();
+    content.focus({ preventScroll: true }); // move focus off the hidden home screen
   });
 
   $("next").addEventListener("click", () => {
     if (!started) return;
-
-    if (current === locations.length - 1) {
+    if (current === total - 1) {
       playing = true;
       showScene(0, true);
       updatePlayButton();
       return;
     }
-
     showScene(current + 1);
   });
 
@@ -906,44 +332,27 @@ button {
 
   $("play").addEventListener("click", () => {
     if (!started) return;
-
     playing = !playing;
     updatePlayButton();
-
-    if (playing) {
-      scheduleNextScene();
-    } else {
-      clearTimeout(timer);
-    }
+    if (playing) scheduleNextScene(); else clearTimeout(timer);
   });
 
   document.addEventListener("keydown", event => {
     if (!started) return;
-
-    if (event.key === "ArrowRight") {
-      $("next").click();
-    }
-
-    if (event.key === "ArrowLeft") {
-      $("prev").click();
-    }
-
-    if (event.code === "Space" &&
-        event.target.tagName !== "BUTTON") {
+    if (event.key === "ArrowRight") $("next").click();
+    if (event.key === "ArrowLeft") $("prev").click();
+    if (event.code === "Space" && event.target.tagName !== "BUTTON") {
       event.preventDefault();
       $("play").click();
     }
   });
 
-  // Initialize the first scene behind the home page.
-  // The home page remains visible until Start is clicked.
+  // Set up the first scene behind the home screen without autoplaying.
   showScene(0, false);
   clearTimeout(timer);
   playing = false;
   updatePlayButton();
-
 })();
 </script>
-
 </body>
 </html>
