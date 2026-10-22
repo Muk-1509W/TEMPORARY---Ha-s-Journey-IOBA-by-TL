@@ -128,10 +128,11 @@ button { font:inherit; }
     <div class="home-background"></div>
     <div class="home-overlay"></div>
     <div class="home-content">
-      <p class="home-eyebrow">Created by Mukundan Sudarsan</p>
+      <p class="home-eyebrow">A STORY OF MIGRATION</p>
       <h1 class="home-title">HA'S<br><span>JOURNEY.</span></h1>
       <p class="home-description">
-        Based on "Inside OUt & Back Again" by Thanhha Lai<br>
+        Four places. One journey.<br>
+        A story of leaving home and finding a new beginning.
       </p>
       <button class="start-button" id="startButton" type="button">
         <span>START JOURNEY</span><span class="arrow" aria-hidden="true">↗</span>
@@ -139,7 +140,7 @@ button { font:inherit; }
       <p class="home-route">SOUTH VIETNAM — GUAM — FLORIDA — ALABAMA</p>
     </div>
     <div class="home-footer">
-      <span>Based on the novel by Thanhha Lai</span>
+      <span>A STORY OF MIGRATION</span>
       <span>FOUR LOCATIONS</span>
     </div>
   </section>
@@ -163,7 +164,7 @@ button { font:inherit; }
   </main>
 
   <div class="character" id="character">
-    <img src="https://i.imgur.com/example.jpg" alt="Description of image"> alt="The girl on her journey" id="girlImage">
+    <img src="images/Ha.png" alt="The girl on her journey" id="girlImage">
     <div class="sprite-placeholder" id="spritePlaceholder" aria-hidden="true">
       <div class="head"></div><div class="body"></div><div class="leg"></div><div class="leg second"></div>
     </div>
@@ -209,7 +210,7 @@ button { font:inherit; }
       title: ["Florida"],
       description: "“I love him immediately and imagine him to be good-hearted and loud and the owner of a horse” (Lai 111).",
       label: "03 — A New Shore",
-      sprite: <img src="https://drive.google.com/file/d/1Hkn7O21ou0p6U61FCNTf9kRzMChvRN-z/view?usp=drive_link" alt="Description of image">
+      sprite: "Ha3.png",
       duration: 7000
     },
     {
@@ -217,7 +218,7 @@ button { font:inherit; }
       title: ["Alabama"],
       description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai ###).",
       label: "04 — A New Beginning",
-      sprite: <img src="https://drive.google.com/file/d/1xeF3E-I3wdvVLWKSBZ0o7Ex3hpj873Wj/view?usp=drive_link" alt="Description of image">,
+      sprite: "Ha4.png",
       duration: 9000
     }
   ];
@@ -254,7 +255,7 @@ button { font:inherit; }
 
   // Each scene has its own character image.
   function setSprite(file) {
-    const src = `images/Ha.png`;
+    const src = `images/${file}`;
     if (!girlImage.src.endsWith(src)) girlImage.src = src;
   }
 
