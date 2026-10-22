@@ -55,7 +55,7 @@ button { font:inherit; }
 
 /* HEADER */
 .topbar { position:absolute; z-index:10; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:26px 5.5%; border-bottom:1px solid rgba(255,255,255,.19); }
-.brand { font-size:11px; font-weight:700; letter-spacing:4px; }
+.brand { font-size:11px; font-weight:700; letter-spacing:4px; cursor:pointer; }
 .edition { color:var(--gold); font-size:11px; letter-spacing:2px; text-transform:uppercase; }
 
 /* LOCATION TEXT */
@@ -152,7 +152,7 @@ button { font:inherit; }
   <div class="shade"></div>
 
   <header class="topbar">
-    <div class="brand">Ha's Journey</div>
+    <div class="brand" id="brand" role="button" tabindex="0">Ha's Journey</div>
     <div class="edition">Inside Out & Back Again · 2026</div>
   </header>
 
@@ -164,7 +164,7 @@ button { font:inherit; }
   </main>
 
   <div class="character" id="character">
-    <img src="images/girl.png" alt="The girl on her journey" id="girlImage">
+    <img src="images/Ha.png" alt="The girl on her journey" id="girlImage">
     <div class="sprite-placeholder" id="spritePlaceholder" aria-hidden="true">
       <div class="head"></div><div class="body"></div><div class="leg"></div><div class="leg second"></div>
     </div>
@@ -335,6 +335,29 @@ button { font:inherit; }
     playing = !playing;
     updatePlayButton();
     if (playing) scheduleNextScene(); else clearTimeout(timer);
+  });
+
+  // Clicking "Ha's Journey" in the header returns to the home screen.
+  function goHome() {
+    if (!started) return;
+    started = false;
+    playing = false;
+    clearTimeout(timer);
+    showScene(0, false);
+    clearTimeout(timer);
+    updatePlayButton();
+    homeScreen.classList.remove("hidden");
+    $("startButton").focus({ preventScroll: true });
+  }
+
+  const brand = $("brand");
+  brand.addEventListener("click", goHome);
+  brand.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.code === "Space") {
+      event.preventDefault();
+      event.stopPropagation(); // don't trigger the global play/pause shortcut
+      goHome();
+    }
   });
 
   document.addEventListener("keydown", event => {
