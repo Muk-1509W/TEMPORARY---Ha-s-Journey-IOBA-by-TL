@@ -194,6 +194,7 @@ button { font:inherit; }
       title: ["South", "Vietnam"],
       description: "“I decided to wake before dawn and tap my big toe to the tile floor first. Not even Mother sitting beside me, knew” (Lai 23).",
       label: "01 — The Starting Point",
+      sprite: "Ha.png",
       duration: 7000
     },
     {
@@ -201,6 +202,7 @@ button { font:inherit; }
       title: ["Guam"],
       description: "“Someone should be kissed for having the heart to send cases of fish sauce to Guam” (Lai 100).",
       label: "02 — Stepping Stone",
+      sprite: "Ha2.png",
       duration: 7000
     },
     {
@@ -208,13 +210,15 @@ button { font:inherit; }
       title: ["Florida"],
       description: "“I love him immediately and imagine him to be good-hearted and loud and the owner of a horse” (Lai 111).",
       label: "03 — A New Shore",
+      sprite: "Ha3.png",
       duration: 7000
     },
     {
       eyebrow: "Part III: Alabama",
       title: ["Alabama"],
-      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai ###).",
+      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai 260).",
       label: "04 — A New Beginning",
+      sprite: "Ha4.png",
       duration: 9000
     }
   ];
@@ -233,12 +237,27 @@ button { font:inherit; }
   // Preload backgrounds so scene changes don't flash a blank color.
   ["south-vietnam", "guam", "florida", "alabama"].forEach(n => { new Image().src = `images/${n}.jpg`; });
 
+  // Preload the character images too.
+  locations.forEach(l => { new Image().src = `images/${l.sprite}`; });
+
+  const placeholder = $("spritePlaceholder");
+
   function showCharacterPlaceholder() {
     girlImage.style.display = "none";
-    $("spritePlaceholder").style.display = "block";
+    placeholder.style.display = "block";
+  }
+  function showCharacterImage() {
+    girlImage.style.display = "";
+    placeholder.style.display = "none";
   }
   girlImage.addEventListener("error", showCharacterPlaceholder);
-  if (girlImage.complete && girlImage.naturalWidth === 0) showCharacterPlaceholder();
+  girlImage.addEventListener("load", showCharacterImage);
+
+  // Each scene has its own character image.
+  function setSprite(file) {
+    const src = `images/${file}`;
+    if (!girlImage.src.endsWith(src)) girlImage.src = src;
+  }
 
   function updatePlayButton() {
     $("play").textContent = playing ? "Ⅱ PAUSE" : "▶ PLAY";
@@ -278,6 +297,7 @@ button { font:inherit; }
     const scene = locations[current];
 
     scenes.forEach((el, i) => el.classList.toggle("active", i === current));
+    setSprite(scene.sprite);
 
     $("eyebrow").textContent = scene.eyebrow;
     setTitle(scene.title);
