@@ -1,400 +1,807 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10120f">
-<title>Ha's Journey — Inside Out & Back Again</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10120f" />
+  <title>Ha's Journey — Inside Out & Back Again</title>
 
-<style>
-:root { --cream:#f2eee5; --gold:#d9bd8b; --dark:#10120f; }
-* { box-sizing:border-box; margin:0; padding:0; }
-html, body { width:100%; height:100%; overflow:hidden; }
-body { background:var(--dark); color:var(--cream); font-family:Arial, Helvetica, sans-serif; }
-button { font:inherit; }
-:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+  <style>
+    :root {
+      --cream: #f2eee5;
+      --gold: #d9bd8b;
+      --dark: #10120f;
+    }
 
-.experience { position:relative; isolation:isolate; width:100%; height:100vh; height:100dvh; min-height:500px; overflow:hidden; background:#242c2b; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-/* BACKGROUNDS */
-.scene { position:absolute; inset:0; z-index:-3; opacity:0; visibility:hidden; background-size:cover; background-position:center; transform:scale(1.06); transition:opacity 1s ease, transform 7s ease, visibility 1s; }
-.scene.active { opacity:1; visibility:visible; transform:scale(1); }
-#bg-0 { background-image:url("images/south-vietnam.jpg"); background-color:#526750; }
-#bg-1 { background-image:url("images/guam.jpg"); background-color:#306c7d; }
-#bg-2 { background-image:url("images/florida.jpg"); background-color:#9b674b; }
-#bg-3 { background-image:url("images/alabama.jpg"); background-color:#48523d; }
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.shade { position:absolute; inset:0; z-index:-2; pointer-events:none;
-  background:linear-gradient(90deg, rgba(10,12,12,.87), rgba(10,12,12,.58) 44%, rgba(10,12,12,.08)),
-             linear-gradient(0deg, rgba(8,9,8,.82), transparent 48%, rgba(8,9,8,.22)); }
+    button {
+      font: inherit;
+    }
 
-/* HOME */
-.home-screen { position:absolute; inset:0; z-index:50; display:flex; align-items:center; padding:0 10%; overflow:hidden; background:#202a27; transition:opacity .9s ease, visibility .9s ease; }
-.home-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-.home-background { position:absolute; inset:0; background:url("images/south-vietnam.jpg") center/cover; transform:scale(1.02); animation:homeZoom 16s ease-in-out infinite alternate; }
-.home-overlay { position:absolute; inset:0;
-  background:linear-gradient(90deg, rgba(8,11,10,.91) 0%, rgba(8,11,10,.69) 47%, rgba(8,11,10,.17) 100%),
-             linear-gradient(0deg, rgba(8,11,10,.56), transparent 45%); }
-.home-content { position:relative; z-index:2; max-width:720px; animation:reveal .9s ease both; }
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
 
-.home-eyebrow, .eyebrow { display:flex; align-items:center; gap:12px; color:var(--gold); font-size:11px; letter-spacing:4px; text-transform:uppercase; }
-.home-eyebrow { margin-bottom:27px; }
-.home-eyebrow::before, .eyebrow::before { content:""; width:32px; height:1px; background:var(--gold); }
+    .experience {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 500px;
+      overflow: hidden;
+      background: #242c2b;
+    }
 
-.home-title { font-family:Georgia, "Times New Roman", serif; font-weight:400; font-size:clamp(76px,12vw,145px); line-height:.84; letter-spacing:-5px; margin-bottom:29px; }
-.home-title span { color:var(--gold); font-style:italic; }
-.home-description { max-width:410px; color:#e1ded6; font-size:15px; line-height:1.9; margin-bottom:33px; }
+    .scene {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      opacity: 0;
+      visibility: hidden;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.06);
+      transition: opacity 1s ease, transform 7s ease;
+    }
 
-.start-button { display:inline-flex; align-items:center; justify-content:space-between; gap:48px; min-width:245px; padding:18px 21px; color:#171812; background:var(--gold); border:1px solid var(--gold); cursor:pointer; font-size:11px; letter-spacing:2px; transition:background .25s, color .25s, transform .25s; }
-.start-button:hover { background:transparent; color:#fff; transform:translateY(-3px); }
-.start-button .arrow { font-size:18px; transition:transform .25s; }
-.start-button:hover .arrow { transform:translate(4px,-4px); }
+    .scene.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
 
-.home-route { margin-top:30px; max-width:500px; color:#d3cfc5; font-size:11px; line-height:2; letter-spacing:2px; }
-.home-footer { position:absolute; z-index:2; left:5.5%; right:5.5%; bottom:27px; display:flex; justify-content:space-between; gap:15px; border-top:1px solid rgba(255,255,255,.28); padding-top:16px; color:#ded8cc; font-size:11px; letter-spacing:2px; }
+    #bg-0 { background-image: url("images/south-vietnam.jpg"); background-color: #526750; }
+    #bg-1 { background-image: url("images/guam.jpg"); background-color: #306c7d; }
+    #bg-2 { background-image: url("images/florida.jpg"); background-color: #9b674b; }
+    #bg-3 { background-image: url("images/alabama.jpg"); background-color: #48523d; }
 
-/* HEADER */
-.topbar { position:absolute; z-index:10; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:26px 5.5%; border-bottom:1px solid rgba(255,255,255,.19); }
-.brand { font-size:11px; font-weight:700; letter-spacing:4px; cursor:pointer; }
-.edition { color:var(--gold); font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+    .shade {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(10,12,12,.87), rgba(10,12,12,.58) 44%, rgba(10,12,12,.08)),
+        linear-gradient(0deg, rgba(8,9,8,.82), transparent 48%, rgba(8,9,8,.22));
+    }
 
-/* LOCATION TEXT */
-.content { position:absolute; z-index:4; top:24%; left:10%; width:min(560px,78%); outline:none; }
-.eyebrow { margin-bottom:24px; }
-.location-title { font-family:Georgia, "Times New Roman", serif; font-weight:400; font-size:clamp(55px,8vw,105px); letter-spacing:-3px; line-height:.98; margin-bottom:25px; }
-.description { max-width:390px; color:#e0dfdb; font-size:15px; line-height:1.9; }
-.coordinates { display:flex; align-items:center; gap:13px; margin-top:27px; color:#d5d0c6; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
-.coordinates[hidden] { display:none; }
-.coordinates span { display:inline-block; width:33px; height:1px; background:var(--gold); }
+    .home-screen {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      padding: 0 10%;
+      overflow: hidden;
+      background: #202a27;
+      transition: opacity .9s ease, visibility .9s ease;
+    }
 
-.content.animate .eyebrow, .content.animate .location-title, .content.animate .description, .content.animate .coordinates { animation:reveal .75s both; }
-.content.animate .location-title { animation-delay:.08s; }
-.content.animate .description { animation-delay:.16s; }
-.content.animate .coordinates { animation-delay:.23s; }
+    .home-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-/* CHARACTER (position is controlled only by classes) */
-.character { position:absolute; z-index:3; bottom:11%; left:8%; width:min(25vw,235px); height:min(53vh,420px); min-width:115px; display:flex; align-items:end; justify-content:center; pointer-events:none; }
-.character img { width:100%; height:100%; object-fit:contain; object-position:bottom; filter:drop-shadow(0 12px 20px rgba(0,0,0,.4)); }
-.character.arrived { left:min(68%, calc(100% - 180px)); }
-.character.travel { animation:travel 1.5s cubic-bezier(.22,.61,.36,1) both; }
-.character.travel img { animation:walk .45s ease-in-out 3; }
-@keyframes travel { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
-@keyframes walk { 0%,100% { transform:translateY(0) rotate(0); } 50% { transform:translateY(-5px) rotate(1deg); } }
+    .home-background {
+      position: absolute;
+      inset: 0;
+      background: url("images/south-vietnam.jpg") center/cover;
+      transform: scale(1.02);
+      animation: homeZoom 16s ease-in-out infinite alternate;
+    }
 
-.sprite-placeholder { display:none; position:relative; width:105px; height:255px; }
-.sprite-placeholder div { position:absolute; }
-.sprite-placeholder .head { top:0; left:23px; width:58px; height:70px; border-radius:48%; background:#bb8b68; box-shadow:inset 0 14px #30251f; }
-.sprite-placeholder .body { top:64px; left:12px; width:80px; height:115px; border-radius:20px 20px 8px 8px; background:#293c45; }
-.sprite-placeholder .leg { top:166px; left:24px; width:22px; height:83px; background:#25282b; border-radius:8px; }
-.sprite-placeholder .leg.second { left:58px; }
+    .home-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(8,11,10,.91) 0%, rgba(8,11,10,.69) 47%, rgba(8,11,10,.17) 100%),
+        linear-gradient(0deg, rgba(8,11,10,.56), transparent 45%);
+    }
 
-/* CONTROLS */
-.bottom { position:absolute; z-index:10; left:5.5%; right:5.5%; bottom:26px; }
-.progress-track { height:2px; background:rgba(255,255,255,.25); margin-bottom:20px; }
-.progress-fill { height:100%; width:0%; background:var(--gold); transition:width .6s ease; }
-.control-row { display:flex; align-items:center; justify-content:space-between; gap:15px; }
-.step-label { color:#e2ded6; font-size:11px; letter-spacing:2px; }
-.controls { display:flex; gap:8px; }
-.control { padding:11px 15px; border:1px solid rgba(255,255,255,.42); color:#fff; background:rgba(15,15,15,.35); font-size:11px; letter-spacing:1px; cursor:pointer; transition:background .2s, color .2s; }
-.control:hover:not(:disabled) { background:var(--cream); color:#111; }
-.control:disabled { opacity:.35; cursor:default; }
+    .home-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      animation: reveal .9s ease both;
+    }
 
-@keyframes reveal { from { opacity:0; transform:translateY(20px); filter:blur(3px); } to { opacity:1; transform:none; filter:blur(0); } }
-@keyframes homeZoom { from { transform:scale(1.02); } to { transform:scale(1.12); } }
+    .home-eyebrow, .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
 
-@media (max-width:650px) {
-  .home-screen { padding:0 7%; }
-  .home-title { font-size:clamp(65px,16vw,100px); }
-  .home-route, .home-footer, .edition, .step-label { letter-spacing:1px; }
-  .topbar { padding:20px 6%; }
-  .content { top:22%; left:7%; width:86%; }
-  .location-title { font-size:clamp(50px,12vw,75px); }
-  .description { font-size:13px; max-width:310px; }
-  .character { width:135px; height:33vh; bottom:15%; }
-  .bottom { left:6%; right:6%; bottom:17px; }
-  .control { padding:9px 8px; font-size:11px; }
-}
+    .home-eyebrow { margin-bottom: 27px; }
+    .home-eyebrow::before, .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
-}
-</style>
+    .home-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: clamp(76px, 12vw, 145px);
+      line-height: .84;
+      letter-spacing: -5px;
+      margin-bottom: 29px;
+    }
+
+    .home-title span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .home-description {
+      max-width: 410px;
+      color: #e1ded6;
+      font-size: 15px;
+      line-height: 1.9;
+      margin-bottom: 33px;
+    }
+
+    .start-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      min-width: 245px;
+      padding: 18px 21px;
+      color: #171812;
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+
+    .start-button:hover {
+      background: transparent;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    .start-button .arrow {
+      font-size: 18px;
+      transition: transform .25s ease;
+    }
+
+    .start-button:hover .arrow {
+      transform: translate(4px, -4px);
+    }
+
+    .home-route {
+      margin-top: 30px;
+      max-width: 500px;
+      color: #d3cfc5;
+      font-size: 11px;
+      line-height: 2;
+      letter-spacing: 2px;
+    }
+
+    .home-footer {
+      position: absolute;
+      z-index: 2;
+      left: 5.5%;
+      right: 5.5%;
+      bottom: 27px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      border-top: 1px solid rgba(255,255,255,.28);
+      padding-top: 16px;
+      color: rgba(255,255,255,.78);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 5.5%;
+      border-bottom: 1px solid rgba(255,255,255,.19);
+    }
+
+    .brand {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      cursor: pointer;
+    }
+
+    .edition {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .content {
+      position: absolute;
+      z-index: 4;
+      top: 24%;
+      left: 10%;
+      width: min(560px, 78%);
+      outline: none;
+    }
+
+    .eyebrow { margin-bottom: 24px; }
+    .location-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: clamp(55px, 8vw, 105px);
+      letter-spacing: -3px;
+      line-height: .98;
+      margin-bottom: 25px;
+    }
+
+    .description {
+      max-width: 390px;
+      color: #e0dfdb;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .coordinates {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-top: 27px;
+      color: #d5d0c6;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .coordinates[hidden] {
+      display: none;
+    }
+
+    .coordinates span {
+      display: inline-block;
+      width: 33px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .content.animate .eyebrow,
+    .content.animate .location-title,
+    .content.animate .description,
+    .content.animate .coordinates {
+      animation: reveal .75s both;
+    }
+
+    .content.animate .location-title { animation-delay: .08s; }
+    .content.animate .description { animation-delay: .16s; }
+    .content.animate .coordinates { animation-delay: .23s; }
+
+    .character {
+      position: absolute;
+      z-index: 3;
+      bottom: 11%;
+      left: 8%;
+      width: min(25vw, 235px);
+      height: min(53vh, 420px);
+      min-width: 115px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      pointer-events: none;
+      transition: left .9s ease;
+    }
+
+    .character img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: bottom;
+      filter: drop-shadow(0 12px 20px rgba(0,0,0,.4));
+      display: block;
+    }
+
+    .character.arrived {
+      left: min(68%, calc(100% - 180px));
+    }
+
+    .character.travel {
+      animation: travel 1.5s cubic-bezier(.22,.61,.36,1) both;
+    }
+
+    .character.travel img {
+      animation: walk .45s ease-in-out 3;
+    }
+
+    @keyframes travel {
+      from { left: 8%; }
+      to { left: min(68%, calc(100% - 180px)); }
+    }
+
+    @keyframes walk {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-5px) rotate(1deg); }
+    }
+
+    .sprite-placeholder {
+      display: none;
+      position: relative;
+      width: 105px;
+      height: 255px;
+    }
+
+    .sprite-placeholder div {
+      position: absolute;
+    }
+
+    .sprite-placeholder .head {
+      top: 0;
+      left: 23px;
+      width: 58px;
+      height: 70px;
+      border-radius: 48%;
+      background: #bb8b68;
+      box-shadow: inset 0 14px #30251f;
+    }
+
+    .sprite-placeholder .body {
+      top: 64px;
+      left: 12px;
+      width: 80px;
+      height: 115px;
+      border-radius: 20px 20px 8px 8px;
+      background: #293c45;
+    }
+
+    .sprite-placeholder .leg {
+      top: 166px;
+      left: 24px;
+      width: 22px;
+      height: 83px;
+      background: #25282b;
+      border-radius: 8px;
+    }
+
+    .sprite-placeholder .leg.second {
+      left: 58px;
+    }
+
+    .bottom {
+      position: absolute;
+      z-index: 10;
+      left: 5.5%;
+      right: 5.5%;
+      bottom: 26px;
+    }
+
+    .progress-track {
+      height: 2px;
+      background: rgba(255,255,255,.25);
+      margin-bottom: 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width .6s ease;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .step-label {
+      color: #e2ded6;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control {
+      padding: 11px 15px;
+      border: 1px solid rgba(255,255,255,.42);
+      color: #fff;
+      background: rgba(15,15,15,.35);
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .control:hover:not(:disabled) {
+      background: var(--cream);
+      color: #111;
+    }
+
+    .control:disabled {
+      opacity: .35;
+      cursor: default;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(3px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+      }
+    }
+
+    @keyframes homeZoom {
+      from { transform: scale(1.02); }
+      to { transform: scale(1.12); }
+    }
+
+    @media (max-width: 650px) {
+      .home-screen { padding: 0 7%; }
+      .home-title { font-size: clamp(65px, 16vw, 100px); }
+      .home-route, .home-footer, .edition, .step-label { letter-spacing: 1px; }
+      .topbar { padding: 20px 6%; }
+      .content { top: 22%; left: 7%; width: 86%; }
+      .location-title { font-size: clamp(50px, 12vw, 75px); }
+      .description { font-size: 13px; max-width: 310px; }
+      .character { width: 135px; height: 33vh; bottom: 15%; }
+      .bottom { left: 6%; right: 6%; bottom: 17px; }
+      .control { padding: 9px 8px; font-size: 11px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="experience" id="experience">
+  <div class="experience" id="experience">
+    <section class="home-screen" id="homeScreen">
+      <div class="home-background"></div>
+      <div class="home-overlay"></div>
 
-  <section class="home-screen" id="homeScreen">
-    <div class="home-background"></div>
-    <div class="home-overlay"></div>
-    <div class="home-content">
-      <p class="home-eyebrow">Created by Mukundan Sudarsan</p>
-      <h1 class="home-title">HA'S<br><span>JOURNEY.</span></h1>
-      <p class="home-description">
-        Based on "Inside OUt & Back Again" by Thanhha Lai<br>
-      </p>
-      <button class="start-button" id="startButton" type="button">
-        <span>START JOURNEY</span><span class="arrow" aria-hidden="true">↗</span>
-      </button>
-      <p class="home-route">SOUTH VIETNAM — GUAM — FLORIDA — ALABAMA</p>
-    </div>
-    <div class="home-footer">
-      <span>Based on the novel by Thanhha Lai</span>
-      <span>FOUR LOCATIONS</span>
-    </div>
-  </section>
+      <div class="home-content">
+        <p class="home-eyebrow">Created by Mukundan Sudarsan</p>
+        <h1 class="home-title">HA'S<br><span>JOURNEY.</span></h1>
+        <p class="home-description">
+          Based on "Inside Out & Back Again" by Thanhha Lai<br>
+        </p>
+        <button class="start-button" id="startButton" type="button">
+          <span>START JOURNEY</span><span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="home-route">SOUTH VIETNAM — GUAM — FLORIDA — ALABAMA</p>
+      </div>
 
-  <div class="scene" id="bg-0"></div>
-  <div class="scene" id="bg-1"></div>
-  <div class="scene" id="bg-2"></div>
-  <div class="scene" id="bg-3"></div>
-  <div class="shade"></div>
+      <div class="home-footer">
+        <span>Based on the novel by Thanhha Lai</span>
+        <span>FOUR LOCATIONS</span>
+      </div>
+    </section>
 
-  <header class="topbar">
-    <div class="brand" id="brand" role="button" tabindex="0">Ha's Journey</div>
-    <div class="edition">Inside Out & Back Again · 2026</div>
-  </header>
+    <div class="scene" id="bg-0"></div>
+    <div class="scene" id="bg-1"></div>
+    <div class="scene" id="bg-2"></div>
+    <div class="scene" id="bg-3"></div>
+    <div class="shade"></div>
 
-  <main class="content" id="content" tabindex="-1" aria-live="polite">
-    <div class="eyebrow" id="eyebrow">Part I: Saigon</div>
-    <h2 class="location-title" id="locationTitle">South<br>Vietnam</h2>
-    <p class="description" id="description"></p>
-    <div class="coordinates" id="coordinates"></div>
-  </main>
+    <header class="topbar">
+      <div class="brand" id="brand" role="button" tabindex="0">Ha's Journey</div>
+      <div class="edition">Inside Out & Back Again · 2026</div>
+    </header>
 
-  <div class="character" id="character">
-    <img src="https://i.imgur.com/example.jpg" alt="Description of image"> alt="The girl on her journey" id="girlImage">
-    <div class="sprite-placeholder" id="spritePlaceholder" aria-hidden="true">
-      <div class="head"></div><div class="body"></div><div class="leg"></div><div class="leg second"></div>
-    </div>
-  </div>
+    <main class="content" id="content" tabindex="-1" aria-live="polite">
+      <div class="eyebrow" id="eyebrow">Part I: Saigon</div>
+      <h2 class="location-title" id="locationTitle">South<br>Vietnam</h2>
+      <p class="description" id="description"></p>
+      <div class="coordinates" id="coordinates"></div>
+    </main>
 
-  <footer class="bottom">
-    <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
-    <div class="control-row">
-      <div class="step-label" id="stepLabel"></div>
-      <div class="controls">
-        <button class="control" id="prev" type="button">← BACK</button>
-        <button class="control" id="play" type="button">Ⅱ PAUSE</button>
-        <button class="control" id="next" type="button">NEXT →</button>
+    <div class="character" id="character">
+      <img id="girlImage" src="" alt="Ha on her journey" />
+      <div class="sprite-placeholder" id="spritePlaceholder" aria-hidden="true">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="leg"></div>
+        <div class="leg second"></div>
       </div>
     </div>
-  </footer>
-</div>
 
-<script>
-(() => {
-  "use strict";
+    <footer class="bottom">
+      <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+      <div class="control-row">
+        <div class="step-label" id="stepLabel"></div>
+        <div class="controls">
+          <button class="control" id="prev" type="button">← BACK</button>
+          <button class="control" id="play" type="button">Ⅱ PAUSE</button>
+          <button class="control" id="next" type="button">NEXT →</button>
+        </div>
+      </div>
+    </footer>
+  </div>
 
-  // Fill in the page number for Alabama (marked ###) and check each quote against the book.
-  const locations = [
-    {
-      eyebrow: "Part I: Saigon",
-      title: ["South", "Vietnam"],
-      description: "“I decided to wake before dawn and tap my big toe to the tile floor first. Not even Mother sitting beside me, knew” (Lai 23).",
-      label: "01 — The Starting Point",
-      sprite: "Ha.png",
-      duration: 7000
-    },
-    {
-      eyebrow: "Part II: At Sea",
-      title: ["Guam"],
-      description: "“Someone should be kissed for having the heart to send cases of fish sauce to Guam” (Lai 100).",
-      label: "02 — Stepping Stone",
-      sprite: "Ha2.png",
-      duration: 7000
-    },
-    {
-      eyebrow: "Part II: At Sea",
-      title: ["Florida"],
-      description: "“I love him immediately and imagine him to be good-hearted and loud and the owner of a horse” (Lai 111).",
-      label: "03 — A New Shore",
-      sprite: <img src="https://drive.google.com/file/d/1Hkn7O21ou0p6U61FCNTf9kRzMChvRN-z/view?usp=drive_link" alt="Description of image">
-      duration: 7000
-    },
-    {
-      eyebrow: "Part III: Alabama",
-      title: ["Alabama"],
-      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai ###).",
-      label: "04 — A New Beginning",
-      sprite: <img src="https://drive.google.com/file/d/1xeF3E-I3wdvVLWKSBZ0o7Ex3hpj873Wj/view?usp=drive_link" alt="Description of image">,
-      duration: 9000
-    }
-  ];
+  <script>
+    (() => {
+      "use strict";
 
-  const $ = id => document.getElementById(id);
-  const total = locations.length;
+      // ---------- CONFIG ----------
+      // If you are using Google Sites or another public host, replace these with real public URLs.
+      // Example:
+      // "background": "https://your-domain.com/images/south-vietnam.jpg"
+      // "sprite": "https://your-domain.com/images/Ha.png"
+      //
+      // If you are hosting the page normally, you can keep the local paths like "images/guam.jpg".
 
-  const homeScreen = $("homeScreen");
-  const content = $("content");
-  const character = $("character");
-  const girlImage = $("girlImage");
-  const scenes = document.querySelectorAll(".scene");
+      const locations = [
+        {
+          eyebrow: "Part I: Saigon",
+          title: ["South", "Vietnam"],
+          description: "“I decided to wake before dawn and tap my big toe to the tile floor first. Not even Mother sitting beside me, knew” (Lai 23).",
+          label: "01 — The Starting Point",
+          background: "images/south-vietnam.jpg",
+          sprite: "images/Ha.png",
+          duration: 7000
+        },
+        {
+          eyebrow: "Part II: At Sea",
+          title: ["Guam"],
+          description: "“Someone should be kissed for having the heart to send cases of fish sauce to Guam” (Lai 100).",
+          label: "02 — Stepping Stone",
+          background: "images/guam.jpg",
+          sprite: "images/Ha2.png",
+          duration: 7000
+        },
+        {
+          eyebrow: "Part II: At Sea",
+          title: ["Florida"],
+          description: "“I love him immediately and imagine him to be good-hearted and loud and the owner of a horse” (Lai 111).",
+          label: "03 — A New Shore",
+          background: "images/florida.jpg",
+          sprite: "images/Ha.png",
+          duration: 7000
+        },
+        {
+          eyebrow: "Part III: Alabama",
+          title: ["Alabama"],
+          description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai 78).",
+          label: "04 — A New Beginning",
+          background: "images/alabama.jpg",
+          sprite: "images/Ha2.png",
+          duration: 9000
+        }
+      ];
 
-  let current = 0, playing = false, started = false, timer = null;
+      const $ = (id) => document.getElementById(id);
+      const total = locations.length;
 
-  // Preload backgrounds so scene changes don't flash a blank color.
-  ["south-vietnam", "guam", "florida", "alabama"].forEach(n => { new Image().src = `images/${n}.jpg`; });
+      const homeScreen = $("homeScreen");
+      const content = $("content");
+      const character = $("character");
+      const girlImage = $("girlImage");
+      const scenes = document.querySelectorAll(".scene");
+      const placeholder = $("spritePlaceholder");
 
-  // Preload the character images too.
-  locations.forEach(l => { new Image().src = `images/${l.sprite}`; });
+      let current = 0;
+      let playing = false;
+      let started = false;
+      let timer = null;
 
-  const placeholder = $("spritePlaceholder");
+      // ---------- ASSET PRELOAD ----------
+      locations.forEach((scene) => {
+        if (scene.background) new Image().src = scene.background;
+        if (scene.sprite) new Image().src = scene.sprite;
+      });
 
-  function showCharacterPlaceholder() {
-    girlImage.style.display = "none";
-    placeholder.style.display = "block";
-  }
-  function showCharacterImage() {
-    girlImage.style.display = "";
-    placeholder.style.display = "none";
-  }
-  girlImage.addEventListener("error", showCharacterPlaceholder);
-  girlImage.addEventListener("load", showCharacterImage);
-
-  // Each scene has its own character image.
-  function setSprite(file) {
-    const src = `images/Ha.png`;
-    if (!girlImage.src.endsWith(src)) girlImage.src = src;
-  }
-
-  function updatePlayButton() {
-    $("play").textContent = playing ? "Ⅱ PAUSE" : "▶ PLAY";
-  }
-
-  function scheduleNextScene() {
-    clearTimeout(timer);
-    if (!playing || !started) return;
-    timer = setTimeout(() => {
-      if (!playing || !started) return;
-      if (current < total - 1) {
-        showScene(current + 1);
-      } else {
-        playing = false;
-        updatePlayButton();
+      function showCharacterPlaceholder() {
+        girlImage.style.display = "none";
+        placeholder.style.display = "block";
       }
-    }, locations[current].duration);
-  }
 
-  function moveCharacter(animate) {
-    character.classList.remove("travel", "arrived");
-    void character.offsetWidth; // restart the CSS animation cleanly
-    character.classList.add(animate ? "travel" : "arrived");
-  }
+      function showCharacterImage() {
+        girlImage.style.display = "";
+        placeholder.style.display = "none";
+      }
 
-  function setTitle(lines) {
-    const el = $("locationTitle");
-    el.textContent = "";
-    lines.forEach((line, i) => {
-      if (i) el.appendChild(document.createElement("br"));
-      el.appendChild(document.createTextNode(line));
-    });
-  }
+      girlImage.addEventListener("error", showCharacterPlaceholder);
+      girlImage.addEventListener("load", showCharacterImage);
 
-  function showScene(index, animate = true) {
-    current = Math.max(0, Math.min(index, total - 1));
-    const scene = locations[current];
+      function setSprite(file) {
+        if (!file) {
+          showCharacterPlaceholder();
+          return;
+        }
 
-    scenes.forEach((el, i) => el.classList.toggle("active", i === current));
-    setSprite(scene.sprite);
+        if (girlImage.getAttribute("src") !== file) {
+          girlImage.src = file;
+        }
+      }
 
-    $("eyebrow").textContent = scene.eyebrow;
-    setTitle(scene.title);
-    $("description").textContent = scene.description;
+      function updatePlayButton() {
+        $("play").textContent = playing ? "Ⅱ PAUSE" : "▶ PLAY";
+      }
 
-    const coords = $("coordinates");
-    coords.textContent = "";
-    coords.hidden = !scene.label;
-    if (scene.label) {
-      coords.appendChild(document.createElement("span"));
-      coords.appendChild(document.createTextNode(" " + scene.label));
-    }
+      function scheduleNextScene() {
+        clearTimeout(timer);
+        if (!playing || !started) return;
 
-    $("stepLabel").textContent = `LOCATION ${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-    $("progress").style.width = ((current + 1) / total * 100) + "%";
-    $("prev").disabled = current === 0;
-    $("next").textContent = current === total - 1 ? "RESTART ↻" : "NEXT →";
+        timer = setTimeout(() => {
+          if (!playing || !started) return;
 
-    content.classList.remove("animate");
-    void content.offsetWidth;
-    content.classList.add("animate");
+          if (current < total - 1) {
+            showScene(current + 1);
+          } else {
+            playing = false;
+            updatePlayButton();
+          }
+        }, locations[current].duration);
+      }
 
-    moveCharacter(animate);
-    scheduleNextScene();
-  }
+      function moveCharacter(animate) {
+        character.classList.remove("travel", "arrived");
+        void character.offsetWidth;
+        character.classList.add(animate ? "travel" : "arrived");
+      }
 
-  $("startButton").addEventListener("click", () => {
-    if (started) return;
-    started = true;
-    playing = true;
-    homeScreen.classList.add("hidden");
-    showScene(0, true);
-    updatePlayButton();
-    content.focus({ preventScroll: true }); // move focus off the hidden home screen
-  });
+      function setTitle(lines) {
+        const el = $("locationTitle");
+        el.textContent = "";
+        lines.forEach((line, i) => {
+          if (i) el.appendChild(document.createElement("br"));
+          el.appendChild(document.createTextNode(line));
+        });
+      }
 
-  $("next").addEventListener("click", () => {
-    if (!started) return;
-    if (current === total - 1) {
-      playing = true;
-      showScene(0, true);
+      function showScene(index, animate = true) {
+        current = Math.max(0, Math.min(index, total - 1));
+        const scene = locations[current];
+
+        scenes.forEach((el, i) => el.classList.toggle("active", i === current));
+
+        const sceneBackground = scene.background || "images/south-vietnam.jpg";
+        const sceneSprite = scene.sprite || "images/Ha.png";
+
+        const bgEl = document.getElementById(`bg-${current}`);
+        if (bgEl) {
+          bgEl.style.backgroundImage = `url("${sceneBackground}")`;
+        }
+
+        setSprite(sceneSprite);
+
+        $("eyebrow").textContent = scene.eyebrow;
+        setTitle(scene.title);
+        $("description").textContent = scene.description;
+
+        const coords = $("coordinates");
+        coords.textContent = "";
+        coords.hidden = !scene.label;
+        if (scene.label) {
+          const dot = document.createElement("span");
+          coords.appendChild(dot);
+          coords.appendChild(document.createTextNode(" " + scene.label));
+        }
+
+        $("stepLabel").textContent = `LOCATION ${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+        $("progress").style.width = ((current + 1) / total * 100) + "%";
+        $("prev").disabled = current === 0;
+        $("next").textContent = current === total - 1 ? "RESTART ↻" : "NEXT →";
+
+        content.classList.remove("animate");
+        void content.offsetWidth;
+        content.classList.add("animate");
+
+        moveCharacter(animate);
+        scheduleNextScene();
+      }
+
+      $("startButton").addEventListener("click", () => {
+        if (started) return;
+        started = true;
+        playing = true;
+        homeScreen.classList.add("hidden");
+        showScene(0, true);
+        updatePlayButton();
+        content.focus({ preventScroll: true });
+      });
+
+      $("next").addEventListener("click", () => {
+        if (!started) return;
+
+        if (current === total - 1) {
+          playing = true;
+          showScene(0, true);
+          updatePlayButton();
+          return;
+        }
+
+        showScene(current + 1);
+      });
+
+      $("prev").addEventListener("click", () => {
+        if (!started || current === 0) return;
+        showScene(current - 1);
+      });
+
+      $("play").addEventListener("click", () => {
+        if (!started) return;
+        playing = !playing;
+        updatePlayButton();
+        if (playing) scheduleNextScene();
+        else clearTimeout(timer);
+      });
+
+      function goHome() {
+        if (!started) return;
+        started = false;
+        playing = false;
+        clearTimeout(timer);
+        showScene(0, false);
+        clearTimeout(timer);
+        updatePlayButton();
+        homeScreen.classList.remove("hidden");
+        $("startButton").focus({ preventScroll: true });
+      }
+
+      const brand = $("brand");
+      brand.addEventListener("click", goHome);
+      brand.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.code === "Space") {
+          event.preventDefault();
+          event.stopPropagation();
+          goHome();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (!started) return;
+
+        if (event.key === "ArrowRight") $("next").click();
+        if (event.key === "ArrowLeft") $("prev").click();
+        if (event.code === "Space" && event.target.tagName !== "BUTTON") {
+          event.preventDefault();
+          $("play").click();
+        }
+      });
+
+      showScene(0, false);
+      clearTimeout(timer);
+      playing = false;
       updatePlayButton();
-      return;
-    }
-    showScene(current + 1);
-  });
-
-  $("prev").addEventListener("click", () => {
-    if (!started || current === 0) return;
-    showScene(current - 1);
-  });
-
-  $("play").addEventListener("click", () => {
-    if (!started) return;
-    playing = !playing;
-    updatePlayButton();
-    if (playing) scheduleNextScene(); else clearTimeout(timer);
-  });
-
-  // Clicking "Ha's Journey" in the header returns to the home screen.
-  function goHome() {
-    if (!started) return;
-    started = false;
-    playing = false;
-    clearTimeout(timer);
-    showScene(0, false);
-    clearTimeout(timer);
-    updatePlayButton();
-    homeScreen.classList.remove("hidden");
-    $("startButton").focus({ preventScroll: true });
-  }
-
-  const brand = $("brand");
-  brand.addEventListener("click", goHome);
-  brand.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.code === "Space") {
-      event.preventDefault();
-      event.stopPropagation(); // don't trigger the global play/pause shortcut
-      goHome();
-    }
-  });
-
-  document.addEventListener("keydown", event => {
-    if (!started) return;
-    if (event.key === "ArrowRight") $("next").click();
-    if (event.key === "ArrowLeft") $("prev").click();
-    if (event.code === "Space" && event.target.tagName !== "BUTTON") {
-      event.preventDefault();
-      $("play").click();
-    }
-  });
-
-  // Set up the first scene behind the home screen without autoplaying.
-  showScene(0, false);
-  clearTimeout(timer);
-  playing = false;
-  updatePlayButton();
-})();
-</script>
+    })();
+  </script>
 </body>
 </html>
