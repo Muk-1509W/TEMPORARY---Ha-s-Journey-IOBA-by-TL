@@ -95,6 +95,17 @@ button { font:inherit; }
   50%  { opacity:1; transform:translate(calc(50vw - 50%), -10px) rotate(0deg); }
   100% { opacity:1; transform:translate(100vw, -44px) rotate(2deg); }
 }
+  /* ROUTE MAP */
+.route { position:absolute; z-index:9; top:92px; right:5.5%; width:min(340px,40vw); pointer-events:none; }
+.route-line { position:absolute; top:5px; left:12.5%; right:12.5%; height:1px; background:rgba(255,255,255,.3); }
+.route-fill { height:100%; width:0; background:var(--gold); transition:width 1.2s ease; }
+.route ol { list-style:none; display:grid; grid-template-columns:repeat(4,1fr); position:relative; }
+.route li { display:flex; flex-direction:column; align-items:center; gap:10px; color:rgba(255,255,255,.5); font-size:10px; letter-spacing:2px; text-transform:uppercase; transition:color .5s; }
+.route .dot { position:relative; z-index:1; width:11px; height:11px; border-radius:50%; border:1px solid var(--gold); background:var(--dark); transition:background .5s, transform .5s, box-shadow .5s; }
+.route li.visited { color:#d5d0c6; }
+.route li.visited .dot { background:var(--gold); }
+.route li.active { color:var(--gold); }
+.route li.active .dot { background:var(--gold); transform:scale(1.5); box-shadow:0 0 0 5px rgba(217,189,139,.25); }
 /* CONTROLS */
 .bottom { position:absolute; z-index:10; left:5.5%; right:5.5%; bottom:26px; }
 .progress-track { height:2px; background:rgba(255,255,255,.25); margin-bottom:20px; }
@@ -120,6 +131,8 @@ button { font:inherit; }
   .character { width:135px; height:33vh; bottom:15%; }
   .bottom { left:6%; right:6%; bottom:17px; }
   .control { padding:9px 8px; font-size:11px; }
+  .route { top:70px; left:6%; right:6%; width:auto; }
+  .route li { font-size:9px; letter-spacing:1px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -164,6 +177,15 @@ button { font:inherit; }
     <div class="brand" id="brand" role="button" tabindex="0">Ha's Journey</div>
     <div class="edition">Inside Out & Back Again · 2026</div>
   </header>
+    <nav class="route" id="route" aria-label="Journey route">
+    <div class="route-line"><div class="route-fill" id="routeFill"></div></div>
+    <ol>
+      <li><span class="dot"></span>Saigon</li>
+      <li><span class="dot"></span>Guam</li>
+      <li><span class="dot"></span>Florida</li>
+      <li><span class="dot"></span>Alabama</li>
+    </ol>
+  </nav>
 
   <main class="content" id="content" tabindex="-1" aria-live="polite">
     <div class="eyebrow" id="eyebrow">Part I: Saigon</div>
@@ -240,6 +262,7 @@ button { font:inherit; }
   const character = $("character");
   const girlImage = $("girlImage");
   const scenes = document.querySelectorAll(".scene");
+  const routeItems = document.querySelectorAll("#route li");
 
   let current = 0, playing = false, started = false, timer = null;
 
@@ -330,6 +353,13 @@ button { font:inherit; }
 
     $("stepLabel").textContent = `LOCATION ${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
     $("progress").style.width = ((current + 1) / total * 100) + "%";
+      routeItems.forEach((li, i) => {
+      li.classList.toggle("active", i === current);
+      li.classList.toggle("visited", i < current);
+      if (i === current) li.setAttribute("aria-current", "step");
+      else li.removeAttribute("aria-current");
+    });
+    $("routeFill").style.width = (current / (total - 1) * 100) + "%";
     $("prev").disabled = current === 0;
     $("next").textContent = current === total - 1 ? "RESTART ↻" : "NEXT →";
 
