@@ -27,6 +27,11 @@ button { font:inherit; }
 .shade { position:absolute; inset:0; z-index:-2; pointer-events:none;
   background:linear-gradient(90deg, rgba(10,12,12,.87), rgba(10,12,12,.58) 44%, rgba(10,12,12,.08)),
              linear-gradient(0deg, rgba(8,9,8,.82), transparent 48%, rgba(8,9,8,.22)); }
+  /* VIGNETTE + FILM GRAIN */
+.vignette { position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.55) 100%); }
+.grain { position:absolute; inset:0; z-index:60; pointer-events:none; opacity:.08;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
 
 /* HOME */
 .home-screen { position:absolute; inset:0; z-index:50; display:flex; align-items:center; padding:0 10%; overflow:hidden; background:#202a27; transition:opacity .9s ease, visibility .9s ease; }
@@ -62,8 +67,7 @@ button { font:inherit; }
 .content { position:absolute; z-index:4; top:24%; left:10%; width:min(560px,78%); outline:none; }
 .eyebrow { margin-bottom:24px; }
 .location-title { font-family:Georgia, "Times New Roman", serif; font-weight:400; font-size:clamp(55px,8vw,105px); letter-spacing:-3px; line-height:.98; margin-bottom:25px; }
-.description { max-width:390px; color:#e0dfdb; font-size:15px; line-height:1.9; }
-.coordinates { display:flex; align-items:center; gap:13px; margin-top:27px; color:#d5d0c6; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+.description { max-width:440px; color:#efe9dc; font-family:Georgia, "Times New Roman", serif; font-style:italic; font-size:clamp(17px,1.5vw,20px); line-height:1.7; text-shadow:0 2px 14px rgba(45,24,8,.8), 0 1px 3px rgba(0,0,0,.65); }.coordinates { display:flex; align-items:center; gap:13px; margin-top:27px; color:#d5d0c6; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
 .coordinates[hidden] { display:none; }
 .coordinates span { display:inline-block; width:33px; height:1px; background:var(--gold); }
 
@@ -127,8 +131,7 @@ button { font:inherit; }
   .topbar { padding:20px 6%; }
   .content { top:22%; left:7%; width:86%; }
   .location-title { font-size:clamp(50px,12vw,75px); }
-  .description { font-size:13px; max-width:310px; }
-  .character { width:135px; height:33vh; bottom:15%; }
+  .description { font-size:16px; max-width:330px; line-height:1.65; }  .character { width:135px; height:33vh; bottom:15%; }
   .bottom { left:6%; right:6%; bottom:17px; }
   .control { padding:9px 8px; font-size:11px; }
   .route { top:70px; left:6%; right:6%; width:auto; }
@@ -170,6 +173,8 @@ button { font:inherit; }
   <div class="scene" id="bg-2"></div>
   <div class="scene" id="bg-3"></div>
   <div class="shade"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
   <img class="plane" id="plane" src="images/plane.png" alt="" aria-hidden="true">
 
   <header class="topbar">
