@@ -78,9 +78,8 @@ button { font:inherit; }
 .character.arrived { left:min(68%, calc(100% - 180px)); }
 .character.travel { animation:travel 1.5s cubic-bezier(.22,.61,.36,1) both; }
 .character.travel img { animation:walk .45s ease-in-out 3; }
-@keyframes trave@media (prefers-reduced-motion: reduce)l   .plane { display:none; } { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
+@keyframes travel { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
 @keyframes walk { 0%,100% { transform:translateY(0) rotate(0); } 50% { transform:translateY(-5px) rotate(1deg); } }
-
 .sprite-placeholder { display:none; position:relative; width:105px; height:255px; }
 .sprite-placeholder div { position:absolute; }
 .sprite-placeholder .head { top:0; left:23px; width:58px; height:70px; border-radius:48%; background:#bb8b68; box-shadow:inset 0 14px #30251f; }
@@ -124,6 +123,7 @@ button { font:inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  .plane { display:none; }
 }
 </style>
 </head>
@@ -224,7 +224,7 @@ button { font:inherit; }
     {
       eyebrow: "Part III: Alabama",
       title: ["Alabama"],
-      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai ###).",
+      description: "“This year I hope I truly learn to fly-kick, not to kick anyone so much as to fly” (Lai 260).",
       label: "04 — A New Beginning",
       sprite: "Ha4.png",
       duration: 9000
