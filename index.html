@@ -72,13 +72,13 @@ button { font:inherit; }
 .content.animate .description { animation-delay:.16s; }
 .content.animate .coordinates { animation-delay:.23s; }
 
-/* CHARACTER (position is controlled only by classes) */
+/* CHARACTER (position is led only by classes) */
 .character { position:absolute; z-index:3; bottom:11%; left:8%; width:min(25vw,235px); height:min(53vh,420px); min-width:115px; display:flex; align-items:end; justify-content:center; pointer-events:none; }
 .character img { width:100%; height:100%; object-fit:contain; object-position:bottom; filter:drop-shadow(0 12px 20px rgba(0,0,0,.4)); }
 .character.arrived { left:min(68%, calc(100% - 180px)); }
 .character.travel { animation:travel 1.5s cubic-bezier(.22,.61,.36,1) both; }
 .character.travel img { animation:walk .45s ease-in-out 3; }
-@keyframes travel { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
+@keyframes trave@media (prefers-reduced-motion: reduce)l   .plane { display:none; } { from { left:8%; } to { left:min(68%, calc(100% - 180px)); } }
 @keyframes walk { 0%,100% { transform:translateY(0) rotate(0); } 50% { transform:translateY(-5px) rotate(1deg); } }
 
 .sprite-placeholder { display:none; position:relative; width:105px; height:255px; }
@@ -87,7 +87,14 @@ button { font:inherit; }
 .sprite-placeholder .body { top:64px; left:12px; width:80px; height:115px; border-radius:20px 20px 8px 8px; background:#293c45; }
 .sprite-placeholder .leg { top:166px; left:24px; width:22px; height:83px; background:#25282b; border-radius:8px; }
 .sprite-placeholder .leg.second { left:58px; }
-
+/* AIRPLANE */
+.plane { position:absolute; z-index:6; top:16%; left:0; width:clamp(90px,14vw,190px); height:auto; opacity:0; pointer-events:none; transform:translateX(-100%); filter:drop-shadow(0 8px 14px rgba(0,0,0,.35)); }
+.plane.fly { animation:planeFly 3.6s cubic-bezier(.45,.05,.55,.95); }
+@keyframes planeFly {
+  0%   { opacity:1; transform:translate(-100%, 24px) rotate(-3deg); }
+  50%  { opacity:1; transform:translate(calc(50vw - 50%), -10px) rotate(0deg); }
+  100% { opacity:1; transform:translate(100vw, -44px) rotate(2deg); }
+}
 /* CONTROLS */
 .bottom { position:absolute; z-index:10; left:5.5%; right:5.5%; bottom:26px; }
 .progress-track { height:2px; background:rgba(255,255,255,.25); margin-bottom:20px; }
@@ -150,6 +157,7 @@ button { font:inherit; }
   <div class="scene" id="bg-2"></div>
   <div class="scene" id="bg-3"></div>
   <div class="shade"></div>
+  <img class="plane" id="plane" src="images/plane.png" alt="" aria-hidden="true">
 
   <header class="topbar">
     <div class="brand" id="brand" role="button" tabindex="0">Ha's Journey</div>
@@ -241,7 +249,15 @@ button { font:inherit; }
   locations.forEach(l => { new Image().src = `images/${l.sprite}`; });
 
   const placeholder = $("spritePlaceholder");
+  const plane = $("plane");
+  plane.addEventListener("error", () => { plane.style.display = "none"; }); // hide if image is missing
+  plane.addEventListener("animationend", () => plane.classList.remove("fly"));
 
+  function flyPlane() {
+    plane.classList.remove("fly");
+    void plane.offsetWidth; // restart the animation cleanly
+    plane.classList.add("fly");
+  }
   function showCharacterPlaceholder() {
     girlImage.style.display = "none";
     placeholder.style.display = "block";
@@ -320,7 +336,8 @@ button { font:inherit; }
     void content.offsetWidth;
     content.classList.add("animate");
 
-    moveCharacter(animate);
+        moveCharacter(animate);
+    if (animate) flyPlane();
     scheduleNextScene();
   }
 
